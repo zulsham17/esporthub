@@ -47,13 +47,13 @@
                 <h1 class="h4 my-3">Log Masuk</h1>
                 <div class="form-group">
                     <label for="inputEmail" class="sr-only">Email</label>
-                    <input type="email" id="inputEmail" class="form-control form-control-lg" placeholder="Email"
-                        required="" autofocus="">
+                    <input type="email" id="inputEmail" name="email" class="form-control form-control-lg" placeholder="Email"
+                    >
                 </div>
                 <div class="form-group pb-4">
                     <label for="inputPassword" class="sr-only">Kata Laluan</label>
-                    <input type="password" id="inputPassword" class="form-control form-control-lg"
-                        placeholder="Kata Laluan" required="">
+                    <input type="password" name="password" id="inputPassword" class="form-control form-control-lg"
+                        placeholder="Kata Laluan">
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Log Masuk</button>
