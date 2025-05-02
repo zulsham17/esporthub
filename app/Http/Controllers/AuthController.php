@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -89,5 +90,14 @@ class AuthController extends Controller
 
         return redirect()->route('login-page');
 
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout(); 
+        $request->session()->invalidate(); 
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login-page')->with('success', 'Berjaya log keluar.');
     }
 }

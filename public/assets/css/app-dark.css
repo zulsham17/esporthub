@@ -70,10 +70,7 @@ body {
   text-align: left;
   background-color: #212529; }
 
-  html, body {
-  height: 100%;
-  overflow: hidden;
-}
+  
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important; }
@@ -12056,43 +12053,3 @@ a.uppy-Dashboard-poweredBy {
     align-items: flex-end;
 }
 
-/* Individual toast item */
-.toast {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #333;
-    color: white;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 10px;
-    max-width: 350px;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-/* Success Toast */
-.toast.success {
-    background-color: #28a745;
-}
-
-/* Error Toast */
-.toast.error {
-    background-color: #dc3545;
-}
-
-/* Close button styling */
-.toast .close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-/* Toast Show animation */
-.toast.show {
-    opacity: 1;
-    transform: translateX(0);
-}

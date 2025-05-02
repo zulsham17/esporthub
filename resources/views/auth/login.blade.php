@@ -25,6 +25,13 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/app-light.css') }}" id="lightTheme" disabled>
     <link rel="stylesheet" href="{{ asset('assets/css/app-dark.css') }}" id="darkTheme">
+    <style>
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body class="dark ">
@@ -47,16 +54,21 @@
                 <h1 class="h4 my-3">Log Masuk</h1>
                 <div class="form-group">
                     <label for="inputEmail" class="sr-only">Email</label>
-                    <input type="email" id="inputEmail" name="email" class="form-control form-control-lg" placeholder="Email"
-                    >
+                    <input type="email" id="inputEmail" name="email" class="form-control form-control-lg" placeholder="Email">
                 </div>
-                <div class="form-group pb-4">
+                <div class="form-group">
                     <label for="inputPassword" class="sr-only">Kata Laluan</label>
                     <input type="password" name="password" id="inputPassword" class="form-control form-control-lg"
                         placeholder="Kata Laluan">
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Log Masuk</button>
+                @if($errors->any())
+                <div class="alert alert-danger">
+                    {{ $errors->first() }}
+                </div>
+                @endif
+
+                <button class="btn btn-lg btn-primary btn-block mt-5" type="submit">Log Masuk</button>
                 <div class="mt-5 mb-3"><a href="{{ route('register-page') }}">Daftar Pengguna Baru</a></div>
             </form>
         </div>
