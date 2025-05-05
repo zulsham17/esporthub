@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 
 class AuthController extends Controller
@@ -99,5 +101,35 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login-page')->with('success', 'Berjaya log keluar.');
+    }
+
+    public function forgotpasswordpage(){
+        return view("auth/forgot-password");
+    }
+
+    public function forgotpassword(Request $request){
+
+        $validate = $request->validate([
+
+            'email'    => 'required|email',
+        ]);
+
+        $user = DB::table('users')->where('email', $validate['email'])->first();
+
+        if (!$user || !isset($user->email)) {
+            return back()->withErrors(['email' => 'Email tidak dijumpai.']);
+        }
+
+    $temporaryPassword = Str::random(10);
+        DB::table('users')
+            ->where('email', $validate['email'])
+            ->update(['password' => bcrypt($temporaryPassword)]);
+
+        Mail::raw("Kata laluan sementara anda: $temporaryPassword", function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Temporary Password');
+        });
+
+        return back()->with('success', 'Kata laluan sementara telah dihantar ke emel anda.');
     }
 }

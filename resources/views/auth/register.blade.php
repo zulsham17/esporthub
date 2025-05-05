@@ -20,6 +20,7 @@
 
     <!-- Icons CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}">
 
     <!-- Date Range Picker CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/daterangepicker.css') }}">
@@ -27,17 +28,12 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/app-light.css') }}" id="lightTheme" disabled>
     <link rel="stylesheet" href="{{ asset('assets/css/app-dark.css') }}" id="darkTheme">
-    <style>
-        html,
-        body {
-            height: 100%;
-            overflow: hidden;
-        }
-    </style>
+    
 </head>
 
-<body class="dark ">
-    <div class="wrapper vh-100">
+<body class="dark">
+    <div class="wrapper vh-100 scrollable">
+        <a href="{{ route('login-page') }}" class="btn btn-secondary btn-md m-3"><i class="fa-solid fa-arrow-left mr-2"></i>Kembali</a>
         <div id="custom-toast-container" class="position-fixed top-0 right-0 mt-5 mr-5" style="z-index: 1050;"></div>
         <div class="row align-items-center h-100">
             <form class="col-lg-6 col-md-8 col-10 mx-auto" action="{{ route('register') }}" method="POST">
@@ -129,7 +125,7 @@
                     </div>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Daftar</button>
-                <p class="mt-5 mb-3 text-muted text-center">© 2020</p>
+                
             </form>
         </div>
     </div>

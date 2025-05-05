@@ -29,7 +29,38 @@
             </div>
 
             <div class="row">
-            <h3>Equipment Table</h3>
+                <!-- Striped rows -->
+                <div class="col-md-12 col-lg-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <div class="d-flex flex-row justify-content-between">
+                                <a href="{{ route('equipment.create') }}" class="btn btn-primary btn-md rounded d-flex align-items-center"><i class="fa fa-add mr-2"></i> Peralatan Baru</a>
+                                <a class="float-right small text-muted" href="#!">View all</a>
+                            </div>
+
+                        </div>
+                        <div class="card-body my-n2">
+                            <table class="table table-striped table-hover table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>No. </th>
+                                        <th>Nama Peralatan</th>
+                                        <th>Kuantiti</th>
+                                        <th>Peralatan Rosak</th>
+                                        <th>Peralatan Sudah Dibaiki</th>
+                                        <th>Peralatan Belum Dibaiki</th>
+                                        <th>Peralatan Hilang</th>
+                                        <th>Peralatan Sudah Diganti</th>
+                                        <th>Peralatan Belum Diganti</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- Striped rows -->
             </div> <!-- .row-->
         </div> <!-- .col-12 -->
     </div> <!-- .row -->
