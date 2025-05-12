@@ -8,6 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
     <title>SportHub STDC - Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Simple bar CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/simplebar.css') }}">
     <!-- Fonts CSS -->
@@ -72,17 +73,17 @@
             <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
                 <i class="fe fe-x"><span class="sr-only"></span></i>
             </a>
-            
+
             {{-- Sidebar --}}
-                @yield('sidebar')
+            @yield('sidebar')
 
 
         </aside>
         <main role="main" class="main-content">
 
             {{-- Main content --}}
-                @yield('content')
-            
+            @yield('content')
+
         </main> <!-- main -->
     </div> <!-- .wrapper -->
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>

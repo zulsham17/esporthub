@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('sidebar')
-@include('sidebars.admin')
+@include('sidebars.user')
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
         <div class="col-12">
             <div class="row align-items-center mb-2">
                 <div class="col">
-                    <h2 class="h5 page-title">Welcome Admin! {{ Auth::user()->fullname }}</h2>
+                    <h2 class="h5 page-title">Welcome! {{ Auth::user()->fullname }}</h2>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
@@ -44,42 +44,16 @@
                                 <thead>
                                     <tr>
                                         <th>No. </th>
-                                        <th style="width:200px;">Jenis Peralatan</th>
-                                        <th>Kuantiti</th>
-                                        <th>Peralatan Rosak</th>
-                                        <th>Peralatan Sudah Dibaiki</th>
+                                        <th style="width:200px;">Nama</th>
+                                        <th>Peralatan yang dipinjam</th>
+                                        <th>Tarikh Pinjam</th>
+                                        <th>Masa Pinjaman</th>
                                         <th>Peralatan Belum Dibaiki</th>
-                                        <th>Peralatan Hilang</th>
-                                        <th>Peralatan Sudah Diganti</th>
-                                        <th>Peralatan Belum Diganti</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($equipment as $i => $item)
-                                    <tr>
-                                        <td>{{ $i + 1 }}</td>
-                                        <td>
-                                            <div class="d-flex flex-row justify-content-between">
-                                                <div>
-                                                    {{ $item->type }}
-                                                </div>
-                                                <div>
-                                                    <a href="{{ route('equipment.type', ['type' => rawurlencode($item->type)]) }}" class="text-primary" style="font-size:15px;" title="Lihat Mengikut Jenis">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                        </td>
-                                        <td>{{ $item->total }}</td>
-                                        <td>{{ $item->rosak }}</td>
-                                        <td>{{ $item->sudah_dibaiki }}</td>
-                                        <td>{{ $item->belum_dibaiki }}</td>
-                                        <td>{{ $item->hilang }}</td>
-                                        <td>{{ $item->sudah_diganti }}</td>
-                                        <td>{{ $item->belum_diganti }}</td>
-                                    </tr>
-                                    @endforeach
+                                    
                                 </tbody>
                             </table>
                         </div>

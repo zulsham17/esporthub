@@ -10,7 +10,7 @@
         <div class="col-12">
             <div class="row align-items-center mb-2">
                 <div class="col">
-                    <h2 class="h5 page-title">Welcome Admin! {{ Auth::user()->fullname }}</h2>
+                    <a class="btn btn-primary rounded btn-sm" href="{{ route('equipment.index') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
@@ -33,54 +33,51 @@
                 <div class="col-md-12 col-lg-12">
                     <div class="card shadow">
                         <div class="card-header">
-                            <div class="d-flex flex-row justify-content-between">
-                                <a href="{{ route('equipment.create') }}" class="btn btn-primary btn-md rounded d-flex align-items-center"><i class="fa fa-add mr-2"></i> Peralatan Baru</a>
-                                <a class="float-right small text-muted" href="#!">View all</a>
-                            </div>
-
+                            <div class="h5 font-weight-normal">Jenis Alatan - <span class="font-weight-bolder">{{ $type }}</span></div>
                         </div>
                         <div class="card-body my-n2">
                             <table class="table table-striped table-hover table-borderless">
                                 <thead>
                                     <tr>
                                         <th>No. </th>
-                                        <th style="width:200px;">Jenis Peralatan</th>
-                                        <th>Kuantiti</th>
-                                        <th>Peralatan Rosak</th>
-                                        <th>Peralatan Sudah Dibaiki</th>
-                                        <th>Peralatan Belum Dibaiki</th>
-                                        <th>Peralatan Hilang</th>
-                                        <th>Peralatan Sudah Diganti</th>
-                                        <th>Peralatan Belum Diganti</th>
+                                        <th>Nama</th>
+                                        <th>Status</th>
+                                        <th>Maklumat</th>
+                                        <th>Tindakan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($equipment as $i => $item)
+                                    @foreach($items as $i => $item)
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->status }}</td>
+                                        <td>{{ $item->description }}</td>
                                         <td>
-                                            <div class="d-flex flex-row justify-content-between">
-                                                <div>
-                                                    {{ $item->type }}
-                                                </div>
-                                                <div>
-                                                    <a href="{{ route('equipment.type', ['type' => rawurlencode($item->type)]) }}" class="text-primary" style="font-size:15px;" title="Lihat Mengikut Jenis">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
+                                            <button class="btn-edit-equipment btn btn-sm btn-warning text-white rounded"
+                                                data-id="{{ $item->id }}"
+                                                data-name="{{ $item->name }}"
+                                                data-type="{{ $item->type }}"
+                                                data-status="{{ $item->status }}"
+                                                data-description="{{ e($item->description) }}"
+                                                data-toggle="modal"
+                                                data-target="#editEquipmentModal">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
 
+                                            <form action="{{ route('equipment.destroy', $item->id) }}" method="POST" class="d-inline"
+                                                onsubmit="return confirm('Adakah anda pasti mahu padam peralatan ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger rounded ml-2">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
-                                        <td>{{ $item->total }}</td>
-                                        <td>{{ $item->rosak }}</td>
-                                        <td>{{ $item->sudah_dibaiki }}</td>
-                                        <td>{{ $item->belum_dibaiki }}</td>
-                                        <td>{{ $item->hilang }}</td>
-                                        <td>{{ $item->sudah_diganti }}</td>
-                                        <td>{{ $item->belum_diganti }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
@@ -212,4 +209,58 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="editEquipmentModal" tabindex="-1" aria-labelledby="editEquipmentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" action="{{ route('equipment.update') }}">
+            @csrf
+            <input type="hidden" name="id" id="edit-id">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title">Edit Peralatan</h5>
+
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Nama</label>
+                        <input type="text" class="form-control" name="name" id="edit-name">
+                    </div>
+                    <div class="mb-3">
+                        <label>Jenis</label>
+                        <input type="text" class="form-control" name="type" id="edit-type">
+                    </div>
+                    <div class="mb-3">
+                        <label>Status</label>
+                        <select class="form-control" name="status" id="edit-status">
+                            <option value="Tersedia">Tersedia</option>
+                            <option value="Rosak">Rosak</option>
+                            <option value="Sedang Dibaiki">Sedang Dibaiki</option>
+                            <option value="Belum Dibaiki">Belum Dibaiki</option>
+                            <option value="Sudah Dibaiki">Sudah Dibaiki</option>
+                            <option value="Hilang">Hilang</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Deskripsi</label>
+                        <textarea class="form-control" name="description" id="edit-description" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    <button class="btn btn-success text-white" type="submit">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).on("click", ".btn-edit-equipment", function() {
+        console.log('Clicked!', $(this).data()); // Debug all data
+
+        $('#edit-id').val($(this).data('id'));
+        $('#edit-name').val($(this).data('name'));
+        $('#edit-type').val($(this).data('type'));
+        $('#edit-status').val($(this).data('status'));
+        $('#edit-description').val($(this).data('description'));
+    });
+</script>
 @endsection

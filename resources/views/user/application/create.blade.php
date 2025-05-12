@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('sidebar')
-@include('sidebars.admin')
+@include('sidebars.user')
 @endsection
 
 @section('content')
@@ -10,7 +10,8 @@
         <div class="col-12">
             <div class="row align-items-center mb-2">
                 <div class="col">
-                    <h2 class="h5 page-title">Welcome Admin! {{ Auth::user()->fullname }}</h2>
+                    <a class="btn btn-primary rounded btn-sm mr-2" href="{{ route('user.dashboard') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    <a class="text-primary" href="{{ route('application.index') }}">Senarai Permohonan</a>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
@@ -29,62 +30,113 @@
             </div>
 
             <div class="row">
-                <!-- Striped rows -->
-                <div class="col-md-12 col-lg-12">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            <div class="d-flex flex-row justify-content-between">
-                                <a href="{{ route('equipment.create') }}" class="btn btn-primary btn-md rounded d-flex align-items-center"><i class="fa fa-add mr-2"></i> Peralatan Baru</a>
-                                <a class="float-right small text-muted" href="#!">View all</a>
+                <div class="col-12">
+                    <h2 class="page-title">Permohonan Pinjaman Alatan Sukan</h2>
+                    <div class="card shadow mb-4">
+                        <form method="POST" action="{{ route('application.store') }}">
+                            @csrf
+                            <div class="card-body">
+                                <!-- Applicant info -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Nama Pemohon</label>
+                                        <input type="text" class="form-control" name="applicant_name" value="{{ Auth::user()->fullname }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>No Matriks</label>
+                                        <input type="text" class="form-control" name="applicant_matric_no" value="{{ Auth::user()->matric_no }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Sektor</label>
+                                        <input type="text" class="form-control" name="applicant_sector" value="{{ Auth::user()->sector }}">
+                                    </div>
+                                </div>
+
+                                <!-- Booking info -->
+                                <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <label>Tarikh Pinjam</label>
+                                        <input type="date" class="form-control" name="date_borrow" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Tarikh Pulang</label>
+                                        <input type="date" class="form-control" name="date_return" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Masa Ambil</label>
+                                        <input type="time" class="form-control" name="time_borrow" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Masa Pulang</label>
+                                        <input type="time" class="form-control" name="time_return" required>
+                                    </div>
+                                </div>
+
+                                <!-- Equipment selection -->
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <label>Jenis Peralatan</label>
+                                        <select name="equipment_type" id="equipment-type" class="form-control" required>
+                                            <option value="">-- Sila Pilih --</option>
+                                            @foreach($types as $type)
+                                            <option value="{{ $type->type }}">{{ $type->type }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Nama Alatan</label>
+                                        <select name="equipment_id" id="equipment-name" class="form-control">
+                                            <!-- Will be populated dynamically -->
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
+                                </div>
                             </div>
+                        </form>
 
-                        </div>
-                        <div class="card-body my-n2">
-                            <table class="table table-striped table-hover table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>No. </th>
-                                        <th style="width:200px;">Jenis Peralatan</th>
-                                        <th>Kuantiti</th>
-                                        <th>Peralatan Rosak</th>
-                                        <th>Peralatan Sudah Dibaiki</th>
-                                        <th>Peralatan Belum Dibaiki</th>
-                                        <th>Peralatan Hilang</th>
-                                        <th>Peralatan Sudah Diganti</th>
-                                        <th>Peralatan Belum Diganti</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($equipment as $i => $item)
-                                    <tr>
-                                        <td>{{ $i + 1 }}</td>
-                                        <td>
-                                            <div class="d-flex flex-row justify-content-between">
-                                                <div>
-                                                    {{ $item->type }}
-                                                </div>
-                                                <div>
-                                                    <a href="{{ route('equipment.type', ['type' => rawurlencode($item->type)]) }}" class="text-primary" style="font-size:15px;" title="Lihat Mengikut Jenis">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
+                        <!-- JavaScript to handle dynamic equipment loading -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const typeSelect = document.getElementById('equipment-type');
+                                const equipmentSelect = document.getElementById('equipment-name');
 
-                                        </td>
-                                        <td>{{ $item->total }}</td>
-                                        <td>{{ $item->rosak }}</td>
-                                        <td>{{ $item->sudah_dibaiki }}</td>
-                                        <td>{{ $item->belum_dibaiki }}</td>
-                                        <td>{{ $item->hilang }}</td>
-                                        <td>{{ $item->sudah_diganti }}</td>
-                                        <td>{{ $item->belum_diganti }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div> <!-- Striped rows -->
+                                if (!typeSelect || !equipmentSelect) return;
+
+                                typeSelect.addEventListener('change', function() {
+                                    const type = this.value;
+
+                                    if (!type) {
+                                        equipmentSelect.innerHTML = '<option value="">-- Pilih Nama Alatan --</option>';
+                                        return;
+                                    }
+
+                                    fetch(`/equipment/by-type/${encodeURIComponent(type)}`)
+                                        .then(response => {
+                                            if (!response.ok) throw new Error('Network error');
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            equipmentSelect.innerHTML = '<option value="">-- Pilih Nama Alatan --</option>';
+                                            data.forEach(item => {
+                                                const option = document.createElement('option');
+                                                option.value = item.id;
+                                                option.textContent = item.name;
+                                                equipmentSelect.appendChild(option);
+                                            });
+                                        })
+                                        .catch(error => {
+                                            console.error('Fetch error:', error);
+                                            equipmentSelect.innerHTML = '<option value="">Tiada alatan dijumpai</option>';
+                                        });
+                                });
+                            });
+                        </script>
+                    </div> <!-- / .card -->
+                    <!-- end section -->
+                </div> <!-- .col-12 -->
             </div> <!-- .row-->
         </div> <!-- .col-12 -->
     </div> <!-- .row -->

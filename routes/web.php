@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Equipment\EquipmentController;
+use App\Http\Controllers\User\ApplyController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,9 +35,12 @@ Route::get('/register', [AuthController::class, 'registerpage'])->name('register
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-Route::resource('/equipment', EquipmentController::class)->only(['index', 'create', 'edit', 'destroy']);
+Route::resource('/equipment', EquipmentController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
+Route::post('/equipment/update', [EquipmentController::class, 'update'])->name('equipment.update');
+Route::get('/equipment/type/{type}', [EquipmentController::class, 'viewByType'])->name('equipment.type');
 
+Route::resource('/application', ApplyController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
+Route::get('/equipment/by-type/{type}', [EquipmentController::class, 'getByType']);
 
