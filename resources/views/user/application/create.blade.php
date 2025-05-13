@@ -53,7 +53,7 @@
                                 </div>
 
                                 <!-- Booking info -->
-                                <div class="row mt-3">
+                                <div class="row my-3">
                                     <div class="col-md-3">
                                         <label>Tarikh Pinjam</label>
                                         <input type="date" class="form-control" name="date_borrow" required>
@@ -73,64 +73,83 @@
                                 </div>
 
                                 <!-- Equipment selection -->
-                                <div class="row mt-4">
-                                    <div class="col-md-6">
-                                        <label>Jenis Peralatan</label>
-                                        <select name="equipment_type" id="equipment-type" class="form-control" required>
-                                            <option value="">-- Sila Pilih --</option>
-                                            @foreach($types as $type)
-                                            <option value="{{ $type->type }}">{{ $type->type }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Nama Alatan</label>
-                                        <select name="equipment_id" id="equipment-name" class="form-control">
-                                            <!-- Will be populated dynamically -->
-                                        </select>
+                                <div id="equipment-selections">
+                                    <div class="row equipment-row mb-1">
+                                        <div class="col-md-5">
+                                            <label>Jenis Peralatan</label>
+                                            <select name="equipment_type[]" class="form-control equipment-type" required>
+                                                <option value="">-- Sila Pilih --</option>
+                                                @foreach($types as $type)
+                                                <option value="{{ $type->type }}">{{ $type->type }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label>Nama Alatan</label>
+                                            <select name="equipment_id[]" class="form-control equipment-name" required></select>
+                                        </div>
+                                        <div class="col-md-2 d-flex align-items-end">
+                                            <button type="button" class="btn btn-danger btn-remove-equipment"><i class="fa fa-trash"></i></button>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="mt-4">
-                                    <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
+
+                                    <button type="button" class="btn btn-secondary mt-1" id="add-equipment">Tambah Alatan</button>
+
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
+                                    </div>
                                 </div>
-                            </div>
                         </form>
 
                         <!-- JavaScript to handle dynamic equipment loading -->
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
-                                const typeSelect = document.getElementById('equipment-type');
-                                const equipmentSelect = document.getElementById('equipment-name');
-
-                                if (!typeSelect || !equipmentSelect) return;
-
-                                typeSelect.addEventListener('change', function() {
-                                    const type = this.value;
-
+                                function fetchEquipmentNames(type, targetSelect) {
                                     if (!type) {
-                                        equipmentSelect.innerHTML = '<option value="">-- Pilih Nama Alatan --</option>';
+                                        targetSelect.innerHTML = '<option value="">-- Pilih Nama Alatan --</option>';
                                         return;
                                     }
 
                                     fetch(`/equipment/by-type/${encodeURIComponent(type)}`)
-                                        .then(response => {
-                                            if (!response.ok) throw new Error('Network error');
-                                            return response.json();
-                                        })
+                                        .then(response => response.json())
                                         .then(data => {
-                                            equipmentSelect.innerHTML = '<option value="">-- Pilih Nama Alatan --</option>';
+                                            targetSelect.innerHTML = '<option value="">-- Pilih Nama Alatan --</option>';
                                             data.forEach(item => {
                                                 const option = document.createElement('option');
                                                 option.value = item.id;
                                                 option.textContent = item.name;
-                                                equipmentSelect.appendChild(option);
+                                                targetSelect.appendChild(option);
                                             });
                                         })
-                                        .catch(error => {
-                                            console.error('Fetch error:', error);
-                                            equipmentSelect.innerHTML = '<option value="">Tiada alatan dijumpai</option>';
+                                        .catch(() => {
+                                            targetSelect.innerHTML = '<option value="">Tiada alatan dijumpai</option>';
                                         });
+                                }
+
+                                function bindEvents(row) {
+                                    const typeSelect = row.querySelector('.equipment-type');
+                                    const nameSelect = row.querySelector('.equipment-name');
+
+                                    typeSelect.addEventListener('change', function() {
+                                        fetchEquipmentNames(this.value, nameSelect);
+                                    });
+
+                                    row.querySelector('.btn-remove-equipment').addEventListener('click', function() {
+                                        row.remove();
+                                    });
+                                }
+
+                                document.querySelectorAll('.equipment-row').forEach(bindEvents);
+
+                                document.getElementById('add-equipment').addEventListener('click', function() {
+                                    const firstRow = document.querySelector('.equipment-row');
+                                    const newRow = firstRow.cloneNode(true);
+                                    newRow.querySelector('.equipment-type').value = '';
+                                    newRow.querySelector('.equipment-name').innerHTML = '';
+                                    document.getElementById('equipment-selections').appendChild(newRow);
+                                    bindEvents(newRow);
                                 });
                             });
                         </script>

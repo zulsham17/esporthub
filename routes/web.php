@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminApplyController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Equipment\EquipmentController;
@@ -43,4 +44,15 @@ Route::get('/equipment/type/{type}', [EquipmentController::class, 'viewByType'])
 
 Route::resource('/application', ApplyController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
 Route::get('/equipment/by-type/{type}', [EquipmentController::class, 'getByType']);
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('application', AdminApplyController::class)->only([
+        'index',
+        'create',
+        'edit',
+        'destroy',
+        'store',
+        'update'
+    ]);
+});
 

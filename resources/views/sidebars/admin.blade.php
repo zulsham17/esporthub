@@ -7,7 +7,7 @@
     <ul class="navbar-nav flex-fill w-100 mb-2">
         <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link"><i class="fe fe-home"></i> <span class="ml-3 item-text">Admin Dashboard</span></a></li>
         <li class="nav-item"><a href="{{ route('equipment.index') }}" class="nav-link"><i class="fa fa-box"></i> <span class="ml-3 item-text">Inventori Peralatan Sukan</span></a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-folder-open"></i> <span class="ml-3 item-text">Senarai Permohonan</span></a></li>
+        <li class="nav-item"><a href="{{ route('admin.application.index') }}" class="nav-link"><i class="fa fa-folder-open"></i> <span class="ml-3 item-text">Senarai Permohonan</span></a></li>
         <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-users"></i> <span class="ml-3 item-text">Senarai Pengguna</span></a></li>
         <li class="nav-item">
             <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
