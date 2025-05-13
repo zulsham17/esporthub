@@ -56,9 +56,11 @@
                                         <td>{{ $app->applicant_name }}</td>
                                         <td>{{ $app->equipment_names }}</td>
                                         <td>{{ \Carbon\Carbon::parse($app->date_borrow)->format('d/m/Y') }}</td>
-                                        <td>{{ $app->time_duration }}</td>
                                         <td>
-                                            <span class="fs-7 py-2 px-3 badge bg-{{ $app->status === 'Lulus' ? 'success' : ($app->status === 'Ditolak' ? 'danger' : 'warning') }}">
+                                            {{ \Carbon\Carbon::parse($app->time_borrow)->format('g:i A') }} - {{ \Carbon\Carbon::parse($app->time_return)->format('g:i A') }}
+                                        </td>
+                                        <td>
+                                            <span class="fs-7 py-2 px-3 badge bg-{{ $app->status === 'Lulus' ? 'success' : ($app->status === 'Ditolak' ? 'danger' : 'warning') }} text-dark font-weight-semibold rounded-pill">
                                                 {{ $app->status }}
                                             </span>
                                         </td>

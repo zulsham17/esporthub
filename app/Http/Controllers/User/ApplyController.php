@@ -18,7 +18,8 @@ class ApplyController extends Controller
                 'application.id',
                 'application.applicant_name',
                 'application.date_borrow',
-                'application.time_duration',
+                'application.time_borrow',
+            'application.time_return',
                 'application.status',
                 DB::raw('GROUP_CONCAT(equipment.name SEPARATOR " , ") as equipment_names')
             )
@@ -84,6 +85,9 @@ class ApplyController extends Controller
                     'equipment_id' => $equipmentId,
                 
                 ]);
+
+                DB::table('equipment')->where('id',$equipmentId)
+                ->update(['status' => 'Ditempah']);
             }
         });
 

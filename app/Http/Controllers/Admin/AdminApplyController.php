@@ -17,11 +17,36 @@ class AdminApplyController extends Controller
             ->join('application_details', 'application.id', '=', 'application_details.application_id')
             ->join('equipment', 'application_details.equipment_id', '=', 'equipment.id')
             ->select(
-                'application.*',
+                'application.id',
+                'application.user_id',
+                'application.applicant_name',
+                'application.applicant_matric_no',
+                'application.applicant_sector',
+                'application.purpose',
+                'application.date_borrow',
+                'application.date_return',
+                'application.time_borrow',
+                'application.time_return',
+                'application.time_duration',
+                'application.status',
+                'application.created_at',
                 DB::raw('GROUP_CONCAT(equipment.name SEPARATOR " , ") as equipment_names')
             )
-
-            ->groupBy('application.id', 'application.applicant_name', 'application.date_borrow', 'application.time_duration', 'application.status')
+            ->groupBy(
+                'application.id',
+                'application.user_id',
+                'application.applicant_name',
+                'application.applicant_matric_no',
+                'application.applicant_sector',
+                'application.purpose',
+                'application.date_borrow',
+                'application.date_return',
+                'application.time_borrow',
+                'application.time_return',
+                'application.time_duration',
+                'application.status',
+                'application.created_at'
+            )
             ->orderByDesc('application.created_at')
             ->get();
 
