@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminApplyController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Setting\EquipmentSettingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Equipment\EquipmentController;
 use App\Http\Controllers\User\ApplyController;
@@ -41,6 +43,7 @@ Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name
 Route::resource('/equipment', EquipmentController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
 Route::post('/equipment/update', [EquipmentController::class, 'update'])->name('equipment.update');
 Route::get('/equipment/type/{type}', [EquipmentController::class, 'viewByType'])->name('equipment.type');
+Route::get('/user/equipment', [EquipmentController::class, 'userIndex'])->name('user.equipment.index');
 
 Route::resource('/application', ApplyController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
 Route::get('/equipment/by-type/{type}', [EquipmentController::class, 'getByType']);
@@ -55,4 +58,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'update'
     ]);
 });
+
+Route::resource('/settings-equipment', EquipmentSettingController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
+
+Route::resource('/user', UserController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
 

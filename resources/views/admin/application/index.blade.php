@@ -43,9 +43,9 @@
                                         <th>No. </th>
                                         <th>Nama</th>
                                         <th>No Matriks</th>
-                                        <th style="width:100px;">Alatan</th>
+                                        <th>Jenis Alatan</th>
+                                        <th style="width:100px;">Nama Alatan</th>
                                         <th>Tarikh Pinjam</th>
-                                        <th>Tarikh Pulang</th>
                                         <th>Masa Pinjaman</th>
                                         <th>Status</th>
                                         <th>Tindakan</th>
@@ -57,19 +57,32 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $app->applicant_name }}</td>
                                         <td>{{ $app->applicant_matric_no }}</td>
+                                        <td>{{ $app->equipment_type }}</td>
                                         <td>{{ $app->equipment_names }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($app->date_borrow)->format('d-m-Y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($app->date_return)->format('d-m-Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($app->date_borrow)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($app->date_return)->format('d-m-Y') }}</td>
+
                                         <td>
                                             {{ \Carbon\Carbon::parse($app->time_borrow)->format('g:i A') }} - {{ \Carbon\Carbon::parse($app->time_return)->format('g:i A') }}
                                         </td>
-                                    
+
                                         <td>
-                                            <span class="badge fs-6 bg-{{ $app->status === 'Lulus' ? 'success' : ($app->status === 'Ditolak' ? 'danger' : 'warning') }}">
+                                            <span class="badge fs-6 bg-{{ 
+                                                                    $app->status === 'Lulus' ? 'success' : 
+                                                                    ($app->status === 'Ditolak' ? 'danger' : 
+                                                                    ($app->status === 'Selesai' ? 'primary' : 'warning')) 
+}}">
                                                 {{ $app->status }}
                                             </span>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
+                                            @if($app->status == 'Lulus')
+                                            <form action="{{ route('admin.application.update', $app->id) }}" method="POST" class="d-inline ms-1">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="status" value="Selesai">
+                                                <button type="submit" class="btn btn-warning btn-sm ml-2"><i class="fas fa-undo-alt"></i></button>
+                                            </form>
+                                            @elseif($app->status == 'Diproses')
                                             <form action="{{ route('admin.application.update', $app->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PUT')
@@ -83,6 +96,9 @@
                                                 <input type="hidden" name="status" value="Ditolak">
                                                 <button type="submit" class="btn btn-danger btn-sm ml-2"><i class="fa fa-x"></i></button>
                                             </form>
+                                            @else
+
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

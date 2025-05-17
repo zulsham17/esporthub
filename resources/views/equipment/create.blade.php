@@ -49,14 +49,9 @@
                                             <label for="example-email">Jenis</label>
                                             <select class="form-control" id="example-select" name="type">
                                                 <option>-- Sila Pilih --</option>
-                                                <option value="Bola Sepak">Bola Sepak</option>
-                                                <option value="Raket Badminton">Raket Badminton</option>
-                                                <option value="Bola Jaring">Bola Jaring</option>
-                                                <option value="Bola Tampar">Bola Tampar</option>
-                                                <option value="Bulu Tangkis">Bulu Tangkis</option>
-                                                <option value="Bola Takraw">Bola Takraw</option>
-                                                <option value="Congkak">Congkak</option>
-                                                <option value="Set Pingpong">Set Pingpong</option>
+                                                @foreach ($master as $item)
+                                                <option value="{{ $item->type_name }}">{{ $item->type_name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div> <!-- /.col -->
@@ -67,10 +62,9 @@
                                                 <option>-- Sila Pilih --</option>
                                                 <option value="Tersedia">Tersedia</option>
                                                 <option value="Rosak">Rosak</option>
-                                                <option value="Sedang Dibaiki">Sedang Dibaiki</option>
-                                                <option value="Belum Dibaiki">Belum Dibaiki</option>
                                                 <option value="Sudah Dibaiki">Sudah Dibaiki</option>
                                                 <option value="Hilang">Hilang</option>
+                                                <option value="Sudah Diganti">Sudah Dibaiki</option>
                                             </select>
                                         </div>
                                     </div>

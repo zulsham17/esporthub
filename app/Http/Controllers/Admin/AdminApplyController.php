@@ -30,6 +30,7 @@ class AdminApplyController extends Controller
                 'application.time_duration',
                 'application.status',
                 'application.created_at',
+                DB::raw('GROUP_CONCAT(DISTINCT equipment.type SEPARATOR " , ") as equipment_type'),
                 DB::raw('GROUP_CONCAT(equipment.name SEPARATOR " , ") as equipment_names')
             )
             ->groupBy(
@@ -90,9 +91,22 @@ class AdminApplyController extends Controller
      */
     public function update(Request $request, $id)
     {
+    
         DB::table('application')->where('id', $id)->update([
             'status' => $request->status,
         ]);
+
+        if ($request->status === 'Selesai') {
+        
+            $equipmentIds = DB::table('application_details')
+                ->where('application_id', $id)
+                ->pluck('equipment_id');
+
+    
+            DB::table('equipment')
+                ->whereIn('id', $equipmentIds)
+                ->update(['status' => 'Tersedia']);
+        }
 
         return redirect()->back()->with('success', 'Status updated successfully.');
     }

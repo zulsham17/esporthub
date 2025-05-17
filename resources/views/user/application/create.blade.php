@@ -77,7 +77,7 @@
                                     <div class="row equipment-row mb-1">
                                         <div class="col-md-5">
                                             <label>Jenis Peralatan</label>
-                                            <select name="equipment_type[]" class="form-control equipment-type" required>
+                                            <select name="equipment_type[]" class="form-control equipment-types" required>
                                                 <option value="">-- Sila Pilih --</option>
                                                 @foreach($types as $type)
                                                 <option value="{{ $type->type }}">{{ $type->type }}</option>
@@ -129,7 +129,7 @@
                                 }
 
                                 function bindEvents(row) {
-                                    const typeSelect = row.querySelector('.equipment-type');
+                                    const typeSelect = row.querySelector('.equipment-types');
                                     const nameSelect = row.querySelector('.equipment-name');
 
                                     typeSelect.addEventListener('change', function() {
@@ -146,7 +146,7 @@
                                 document.getElementById('add-equipment').addEventListener('click', function() {
                                     const firstRow = document.querySelector('.equipment-row');
                                     const newRow = firstRow.cloneNode(true);
-                                    newRow.querySelector('.equipment-type').value = '';
+                                    newRow.querySelector('.equipment-types').value = '';
                                     newRow.querySelector('.equipment-name').innerHTML = '';
                                     document.getElementById('equipment-selections').appendChild(newRow);
                                     bindEvents(newRow);

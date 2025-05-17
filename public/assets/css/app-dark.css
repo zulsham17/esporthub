@@ -12064,3 +12064,35 @@ a.uppy-Dashboard-poweredBy {
     align-items: flex-end;
 }
 
+   .equipment-card {
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
+    }
+
+    .equipment-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .equipment-card img {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .equipment-card .card-body {
+        background-color: #f8f9fa;
+    }
+
+    .equipment-type {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .equipment-qty {
+        font-size: 1rem;
+        color: #666;
+    }

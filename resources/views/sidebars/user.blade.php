@@ -6,9 +6,9 @@
     </div>
     <ul class="navbar-nav flex-fill w-100 mb-2">
         <li class="nav-item"><a href="{{ route('user.dashboard') }}" class="nav-link"><i class="fe fe-home"></i> <span class="ml-3 item-text">Dashboard</span></a></li>
-        <li class="nav-item"><a href="{{ route('application.create') }}" class="nav-link"><i class="fa fa-check-to-slot"></i> <span class="ml-3 item-text">Mohon Pinjaman</span></a></li>
-        <li class="nav-item"><a href="{{ route('application.index') }}" class="nav-link"><i class="fa-solid fa-envelope-open-text"></i> <span class="ml-3 item-text">Senarai Pinjaman</span></a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-table-tennis-paddle-ball"></i> <span class="ml-3 item-text">Senarai Peralatan</span></a></li>
+        <li class="nav-item"><a href="{{ route('application.create') }}" class="nav-link"><i class="fa fa-check-to-slot"></i> <span class="ml-3 item-text">Buat Pinjaman Peralatan</span></a></li>
+        <li class="nav-item"><a href="{{ route('application.index') }}" class="nav-link"><i class="fa-solid fa-envelope-open-text"></i> <span class="ml-3 item-text">Senarai Pinjaman Peralatan</span></a></li>
+        <li class="nav-item"><a href="{{ route('user.equipment.index') }}" class="nav-link"><i class="fa-solid fa-table-tennis-paddle-ball"></i> <span class="ml-3 item-text">Senarai Peralatan</span></a></li>
         <li class="nav-item">
             <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fe fe-log-out"></i> <span class="ml-3 item-text">Log Keluar</span>

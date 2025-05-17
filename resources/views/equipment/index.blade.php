@@ -48,10 +48,8 @@
                                         <th>Kuantiti</th>
                                         <th>Peralatan Rosak</th>
                                         <th>Peralatan Sudah Dibaiki</th>
-                                        <th>Peralatan Belum Dibaiki</th>
                                         <th>Peralatan Hilang</th>
-                                        <th>Peralatan Sudah Diganti</th>
-                                        <th>Peralatan Belum Diganti</th>
+                                        <th>Peralatan Sudah Diganti</th>  
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,10 +72,8 @@
                                         <td>{{ $item->total }}</td>
                                         <td>{{ $item->rosak }}</td>
                                         <td>{{ $item->sudah_dibaiki }}</td>
-                                        <td>{{ $item->belum_dibaiki }}</td>
                                         <td>{{ $item->hilang }}</td>
                                         <td>{{ $item->sudah_diganti }}</td>
-                                        <td>{{ $item->belum_diganti }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

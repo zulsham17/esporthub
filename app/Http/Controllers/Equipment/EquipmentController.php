@@ -19,10 +19,8 @@ class EquipmentController extends Controller
                 DB::raw('COUNT(*) as total'),
                 DB::raw("SUM(CASE WHEN status = 'Rosak' THEN 1 ELSE 0 END) as rosak"),
                 DB::raw("SUM(CASE WHEN status = 'Sudah Dibaiki' THEN 1 ELSE 0 END) as sudah_dibaiki"),
-                DB::raw("SUM(CASE WHEN status = 'Belum Dibaiki' THEN 1 ELSE 0 END) as belum_dibaiki"),
                 DB::raw("SUM(CASE WHEN status = 'Hilang' THEN 1 ELSE 0 END) as hilang"),
                 DB::raw("SUM(CASE WHEN status = 'Sudah Diganti' THEN 1 ELSE 0 END) as sudah_diganti"),
-                DB::raw("SUM(CASE WHEN status = 'Belum Diganti' THEN 1 ELSE 0 END) as belum_diganti")
             )
             ->groupBy('type')
             ->get();
@@ -32,8 +30,13 @@ class EquipmentController extends Controller
 
     
     public function create()
+    
     {
-        return view("equipment.create");
+
+        $master = DB::table('equipment_master')
+        ->get();
+        
+        return view("equipment.create",compact('master'));
     }
 
 
@@ -88,7 +91,8 @@ class EquipmentController extends Controller
     public function viewByType($type)
     {
 
-        $items = DB::table('equipment')->where('type', $type)->get();
+        $items = DB::table('equipment')->where('type', $type)
+        ->get();
 
         return view('equipment.show-by-type', compact('items', 'type'));
     }
@@ -99,9 +103,21 @@ class EquipmentController extends Controller
         $decodedType = urldecode($type);
         $items = DB::table('equipment')
             ->where('type', $decodedType)
-            ->where('status', 'Tersedia')
+            ->whereIn('status', ['Tersedia', 'Sudah Dibaiki', 'Sudah Diganti'])
             ->get();
 
         return response()->json($items);
+    }
+
+    public function userIndex(){
+
+        $equipmentGroups = DB::table('equipment')
+            ->join('equipment_master', 'equipment.type', '=', 'equipment_master.type_name')
+            ->select('equipment.type', 'equipment_master.image',
+            DB::raw("COUNT(CASE WHEN equipment.status IN ('Tersedia', 'Sudah Dibaiki', 'Sudah Diganti') THEN 1 END) as quantity"))
+            ->groupBy('equipment.type', 'equipment_master.image')
+            ->get();
+
+        return view('user.equipment.index', compact('equipmentGroups'));
     }
 }

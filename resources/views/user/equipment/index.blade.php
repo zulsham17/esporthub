@@ -1,16 +1,17 @@
 @extends('layouts.dashboard')
 
 @section('sidebar')
-@include('sidebars.admin')
+@include('sidebars.user')
 @endsection
 
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="row align-items-center mb-2">
+            <div class="row align-items-center mb-4">
                 <div class="col">
-                    <a class="btn btn-primary rounded btn-sm" href="{{ route('equipment.index') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    <a class="btn btn-primary rounded btn-sm mr-2" href="{{ route('user.dashboard') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    <a class="text-primary" href="{{ route('application.create') }}">Buat Permohonan Pinjaman</a>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
@@ -29,59 +30,17 @@
             </div>
 
             <div class="row">
-                <!-- Striped rows -->
-                <div class="col-md-12 col-lg-12">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            <div class="h5 font-weight-normal">Jenis Alatan - <span class="font-weight-bolder">{{ $type }}</span></div>
-                        </div>
-                        <div class="card-body my-n2">
-                            <table class="table table-striped table-hover table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>No. </th>
-                                        <th>Nama</th>
-                                        <th>Status</th>
-                                        <th>Maklumat</th>
-                                        <th>Tindakan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($items as $i => $item)
-                                    <tr>
-                                        <td>{{ $i + 1 }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>{{ $item->description }}</td>
-                                        <td>
-                                            <button class="btn-edit-equipment btn btn-sm btn-warning text-white rounded"
-                                                data-id="{{ $item->id }}"
-                                                data-name="{{ $item->name }}"
-                                                data-type="{{ $item->type }}"
-                                                data-status="{{ $item->status }}"
-                                                data-description="{{ e($item->description) }}"
-                                                data-toggle="modal"
-                                                data-target="#editEquipmentModal">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-
-                                            <form action="{{ route('equipment.destroy', $item->id) }}" method="POST" class="d-inline"
-                                                onsubmit="return confirm('Adakah anda pasti mahu padam peralatan ini?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger rounded ml-2">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-
-                            </table>
+                @foreach ($equipmentGroups as $group)
+                <div class="col-md-4 d-flex align-items-stretch mb-4">
+                    <div class="card equipment-card mb-4 shadow-sm w-100">
+                        <img src="{{ asset('storage/' . $group->image) }}" class="card-img-top" alt="Equipment Image">
+                        <div class="card-body text-center">
+                            <h5 class="equipment-type">{{ $group->type }}</h5>
+                            <p class="equipment-qty">Jumlah Alatan: <span class="text-primary font-weight-bold">{{ $group->quantity }}</span></p>
                         </div>
                     </div>
-                </div> <!-- Striped rows -->
+                </div>
+                @endforeach
             </div> <!-- .row-->
         </div> <!-- .col-12 -->
     </div> <!-- .row -->
@@ -209,57 +168,4 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="editEquipmentModal" tabindex="-1" aria-labelledby="editEquipmentLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form method="POST" action="{{ route('equipment.update') }}">
-            @csrf
-            <input type="hidden" name="id" id="edit-id">
-            <div class="modal-content">
-                <div class="modal-header bg-warning text-white">
-                    <h5 class="modal-title">Edit Peralatan</h5>
-
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label>Nama</label>
-                        <input type="text" class="form-control" name="name" id="edit-name">
-                    </div>
-                    <div class="mb-3">
-                        <label>Jenis</label>
-                        <input type="text" class="form-control" name="type" id="edit-type">
-                    </div>
-                    <div class="mb-3">
-                        <label>Status</label>
-                        <select class="form-control" name="status" id="edit-status">
-                            <option value="Tersedia">Tersedia</option>
-                            <option value="Rosak">Rosak</option>
-                            <option value="Sudah Dibaiki">Sudah Dibaiki</option>
-                            <option value="Hilang">Hilang</option>
-                            <option value="Sedang Dibaiki">Sudah Diganti</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label>Deskripsi</label>
-                        <textarea class="form-control" name="description" id="edit-description" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" data-dismiss="modal">Batal</button>
-                    <button class="btn btn-success text-white" type="submit">Simpan</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<script>
-    $(document).on("click", ".btn-edit-equipment", function() {
-        console.log('Clicked!', $(this).data()); // Debug all data
-
-        $('#edit-id').val($(this).data('id'));
-        $('#edit-name').val($(this).data('name'));
-        $('#edit-type').val($(this).data('type'));
-        $('#edit-status').val($(this).data('status'));
-        $('#edit-description').val($(this).data('description'));
-    });
-</script>
 @endsection

@@ -19,12 +19,12 @@ class ApplyController extends Controller
                 'application.applicant_name',
                 'application.date_borrow',
                 'application.time_borrow',
-            'application.time_return',
+                'application.time_return',
                 'application.status',
                 DB::raw('GROUP_CONCAT(equipment.name SEPARATOR " , ") as equipment_names')
             )
             ->where('application.user_id', auth()->user()->id)
-            ->groupBy('application.id', 'application.applicant_name', 'application.date_borrow', 'application.time_duration', 'application.status')
+            ->groupBy('application.id', 'application.applicant_name', 'application.date_borrow', 'application.time_borrow', 'application.time_return', 'application.status')
             ->orderByDesc('application.created_at')
             ->get();
 
