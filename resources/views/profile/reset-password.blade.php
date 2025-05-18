@@ -1,81 +1,73 @@
 @extends('layouts.dashboard')
 
 @section('sidebar')
+@if(Auth::user()->roles == 'admin')
 @include('sidebars.admin')
+@else
+@include('sidebars.user')
+@endif
 @endsection
 
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="row align-items-center mb-2">
-                <div class="col">
-                    <h2 class="h5 page-title">Welcome Admin! {{ Auth::user()->fullname }}</h2>
-                </div>
-                <div class="col-auto">
-                    <form class="form-inline">
-                        <div class="form-group d-none d-lg-inline">
-                            <label for="reportrange" class="sr-only">Date Ranges</label>
-                            <div id="reportrange" class="px-2 py-2 text-muted">
-                                <span class="small"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-sm"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
-                            <button type="button" class="btn btn-sm mr-2"><span class="fe fe-filter fe-16 text-muted"></span></button>
-                        </div>
-                    </form>
-                </div>
+
+            <div class="d-flex flex-row justify-content-start">
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                @endif
             </div>
 
-            <div class="row my-4">
-                <div class="col-md-4">
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <h2 class="page-title">Profil Pengguna</h2>
+                    <p class="text-muted">Kemaskini kata laluan anda di sini</p>
                     <div class="card shadow mb-4">
+                        <div class="card-header">
+                            <strong class="card-title">Set Semula Kata Laluan</strong>
+                        </div>
                         <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <small class="text-muted mb-3">Senarai Peralatan Tersedia</small>
-                                    <h3 class="card-title mt-3">{{ $equipment }}</h3>
+                            <form method="POST" action="{{ route('profile.reset-password.submit') }}">
+                                @csrf
+
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label for="current_password" class="form-label">Katalaluan Semasa</label>
+                                        <input type="password" class="form-control @error('current_password') is-invalid @enderror" id="current_password" name="current_password">
+                                        @error('current_password') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
 
                                 </div>
-                                <div class="col-4 text-right">
-                                    <i class="fs-1 fa fa-volleyball text-info"></i>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label for="new_password" class="form-label">Katalaluan Baru</label>
+                                        <input type="password" class="form-control @error('new_password') is-invalid @enderror" id="new_password" name="new_password">
+                                        @error('new_password') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
-                            </div> <!-- /. row -->
-                        </div> <!-- /. card-body -->
-                    </div> <!-- /. card -->
-                </div> <!-- /. col -->
-                <div class="col-md-4">
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <small class="text-muted mb-3">Senarai Permohonan Baru</small>
-                                    <h3 class="card-title mt-3">{{ $application }}</h3>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label for="new_password_confirmation" class="form-label">Pengesahan Katalaluan Baru</label>
+                                        <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation">
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary">Tukar Katalaluan</button>
+                                        <a href="{{ route('profile') }}" class="text-primary ml-3">Profil Pengguna</a>
+                                    </div>
 
                                 </div>
-                                <div class="col-4 text-right">
-                                    <i class="fs-1 fa fa-file-import text-info"></i>
-                                </div>
-                            </div> <!-- /. row -->
-                        </div> <!-- /. card-body -->
-                    </div> <!-- /. card -->
-                </div> <!-- /. col -->
-                <div class="col-md-4">
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <small class="text-muted mb-3">Senarai Pengguna (Pelajar)</small>
-                                    <h3 class="card-title mt-3">{{ $user }}</h3>
-                                </div>
-                                <div class="col-4 text-right">
-                                    <i class="fs-1 fa fa-users text-info"></i>
-                                </div>
-                            </div> <!-- /. row -->
-                        </div> <!-- /. card-body -->
-                    </div> <!-- /. card -->
-                </div> <!-- /. col -->
+
+                            </form>
+                        </div>
+                    </div> <!-- / .card -->
+
+                </div>
             </div> <!-- .row-->
         </div> <!-- .col-12 -->
     </div> <!-- .row -->

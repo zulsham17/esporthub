@@ -1,81 +1,86 @@
 @extends('layouts.dashboard')
 
 @section('sidebar')
+@if(Auth::user()->roles == 'admin')
 @include('sidebars.admin')
+@else
+@include('sidebars.user')
+@endif
 @endsection
 
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="row align-items-center mb-2">
-                <div class="col">
-                    <h2 class="h5 page-title">Welcome Admin! {{ Auth::user()->fullname }}</h2>
-                </div>
-                <div class="col-auto">
-                    <form class="form-inline">
-                        <div class="form-group d-none d-lg-inline">
-                            <label for="reportrange" class="sr-only">Date Ranges</label>
-                            <div id="reportrange" class="px-2 py-2 text-muted">
-                                <span class="small"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-sm"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
-                            <button type="button" class="btn btn-sm mr-2"><span class="fe fe-filter fe-16 text-muted"></span></button>
-                        </div>
-                    </form>
-                </div>
+
+            <div class="d-flex flex-row justify-content-start">
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                @endif
             </div>
 
-            <div class="row my-4">
-                <div class="col-md-4">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="page-title">Profil Pengguna</h2>
+                    <p class="text-muted">Kemaskini maklumat anda di sini</p>
                     <div class="card shadow mb-4">
+                        <div class="card-header">
+                            <strong class="card-title">Profil</strong>
+                        </div>
                         <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <small class="text-muted mb-3">Senarai Peralatan Tersedia</small>
-                                    <h3 class="card-title mt-3">{{ $equipment }}</h3>
+                            <form method="POST" action="{{ route('profile.update', $user->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="matric_no">No Matriks</label>
+                                            <input type="text" name="matric_no" id="matric_no" class="form-control" value="{{ $user->matric_no }}">
+                                        </div>
 
-                                </div>
-                                <div class="col-4 text-right">
-                                    <i class="fs-1 fa fa-volleyball text-info"></i>
-                                </div>
-                            </div> <!-- /. row -->
-                        </div> <!-- /. card-body -->
-                    </div> <!-- /. card -->
-                </div> <!-- /. col -->
-                <div class="col-md-4">
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <small class="text-muted mb-3">Senarai Permohonan Baru</small>
-                                    <h3 class="card-title mt-3">{{ $application }}</h3>
+                                        <div class="form-group mb-3">
+                                            <label for="email">Email</label>
+                                            <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}">
+                                        </div>
 
+                                        <div class="form-group mb-3">
+                                            <label for="sector">Sektor</label>
+                                            <select class="form-control" name="sector" id="sector">
+                                                <option disabled {{ $user->sector == null ? 'selected' : '' }}>-- Sila Pilih Sektor --</option>
+                                                <option value="Sistem Komputer" {{ $user->sector == 'Sistem Komputer' ? 'selected' : '' }}>Sistem Komputer</option>
+                                                <option value="Tekstil Pakaian" {{ $user->sector == 'Tekstil Pakaian' ? 'selected' : '' }}>Tekstil Pakaian</option>
+                                                <option value="Elektrik" {{ $user->sector == 'Elektrik' ? 'selected' : '' }}>Elektrik</option>
+                                                <option value="Automotif" {{ $user->sector == 'Automotif' ? 'selected' : '' }}>Automotif</option>
+                                                <option value="Motosikal" {{ $user->sector == 'Motosikal' ? 'selected' : '' }}>Motosikal</option>
+                                                <option value="Kulinari" {{ $user->sector == 'Kulinari' ? 'selected' : '' }}>Kulinari</option>
+                                                <option value="Pastri" {{ $user->sector == 'Pastri' ? 'selected' : '' }}>Pastri</option>
+                                                <option value="Penyaman Udara" {{ $user->sector == 'Penyaman Udara' ? 'selected' : '' }}>Penyaman Udara</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="fullname">Nama Penuh</label>
+                                            <input type="text" name="fullname" id="fullname" class="form-control" value="{{ $user->fullname }}">
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label for="phone_no">No Telefon</label>
+                                            <input type="text" name="phone_no" id="phone_no" class="form-control" value="{{ $user->phone_no }}">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-4 text-right">
-                                    <i class="fs-1 fa fa-file-import text-info"></i>
+
+                                <div class="row px-3 align-items-center">
+                                    <button type="submit" class="btn btn-primary">Kemaskini</button>
+                                    <a href="{{ route('profile.reset-password') }}" class="text-primary ml-3">Reset Kata Laluan</a>
                                 </div>
-                            </div> <!-- /. row -->
-                        </div> <!-- /. card-body -->
-                    </div> <!-- /. card -->
-                </div> <!-- /. col -->
-                <div class="col-md-4">
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <small class="text-muted mb-3">Senarai Pengguna (Pelajar)</small>
-                                    <h3 class="card-title mt-3">{{ $user }}</h3>
-                                </div>
-                                <div class="col-4 text-right">
-                                    <i class="fs-1 fa fa-users text-info"></i>
-                                </div>
-                            </div> <!-- /. row -->
-                        </div> <!-- /. card-body -->
-                    </div> <!-- /. card -->
-                </div> <!-- /. col -->
+                            </form>
+                        </div>
+                    </div> <!-- / .card -->
+
+                </div>
             </div> <!-- .row-->
         </div> <!-- .col-12 -->
     </div> <!-- .row -->

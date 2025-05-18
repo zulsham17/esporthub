@@ -67,16 +67,14 @@
                         <label for="inputEmail4">Sektor</label>
                         <select class="form-control" name="sector" id="inputEmail4">
                             <option>-- Sila Pilih Sektor --</option>
-                            <option value="Teknologi Maklumat">Teknologi Maklumat</option>
-                            <option value="Kejuruteraan">Kejuruteraan</option>
-                            <option value="Pendidikan">Pendidikan</option>
-                            <option value="Perakaunan">Perakaunan</option>
-                            <option value="Sains Kesihatan">Sains Kesihatan</option>
-                            <option value="Pentadbiran Awam">Pentadbiran Awam</option>
-                            <option value="Undang-Undang">Undang-Undang</option>
-                            <option value="Seni & Reka Bentuk">Seni & Reka Bentuk</option>
-                            <option value="Perniagaan">Perniagaan</option>
-                            <option value="Lain-lain">Lain-lain</option>
+                            <option value="Sistem Komputer">Sistem Komputer</option>
+                            <option value="Tekstil Pakaian">Tekstil Pakaian</option>
+                            <option value="Elektrik">Elektrik</option>
+                            <option value="Automotif">Automotif</option>
+                            <option value="Motosikal">Motosikal</option>
+                            <option value="Kulinari">Kulinari</option>
+                            <option value="Pastri">Pastri</option>
+                            <option value="Penyaman Udara">Penyaman Udara</option>
                         </select>
                     </div>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Setting\EquipmentSettingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Equipment\EquipmentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\ApplyController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -62,4 +63,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::resource('/settings-equipment', EquipmentSettingController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
 
 Route::resource('/user', UserController::class)->only(['index', 'create', 'edit', 'destroy', 'store', 'update']);
+
+Route::get('/profile', [ProfileController::class, 'profilePage'])->name('profile');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::get('/profile/reset-password', [ProfileController::class, 'resetPasswordPage'])->name('profile.reset-password');
+Route::post('/profile/reset-password', [ProfileController::class, 'resetPassword'])->name('profile.reset-password.submit');
 
