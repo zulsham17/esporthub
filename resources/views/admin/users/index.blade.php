@@ -10,7 +10,14 @@
         <div class="col-12">
             <div class="row align-items-center mb-2">
                 <div class="col">
-                    <a class="text-primary" href="{{ route('settings-equipment.create') }}">Tambah Jenis Perlatan Baru</a>
+                    <div class="d-flex justify-content-start">
+                        @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                        @endif
+                        @if(session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}<i class="fa fa-times ml-1"></i></div>
+                        @endif
+                    </div>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
@@ -33,7 +40,7 @@
                 <div class="col-md-12 col-lg-12">
                     <div class="card shadow">
                         <div class="card-header">
-                            <h3 class="card-title">Senarai Jenis Peralatan</h3>
+                            <h3 class="card-title">Senarai Pengguna Sistem (Pelajar)</h3>
 
                         </div>
                         <div class="card-body my-n2">

@@ -8,63 +8,66 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="row align-items-center mb-2">
-                <div class="col">
-                    <a class="btn btn-primary rounded btn-sm" href="{{ route('settings-equipment.index') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
-                </div>
-                <div class="col-auto">
-                    <form class="form-inline">
-                        <div class="form-group d-none d-lg-inline">
-                            <label for="reportrange" class="sr-only">Date Ranges</label>
-                            <div id="reportrange" class="px-2 py-2 text-muted">
-                                <span class="small"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-sm"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
-                            <button type="button" class="btn btn-sm mr-2"><span class="fe fe-filter fe-16 text-muted"></span></button>
-                        </div>
-                    </form>
-                </div>
+
+            <div class="d-flex flex-row justify-content-start">
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                @endif
             </div>
 
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-12">
-                    <h2 class="page-title">Tambah jenis peralatan baru</h2>
+                    <h2 class="page-title">Admin</h2>
+                    <p class="text-muted">Tambah admin baru</p>
                     <div class="card shadow mb-4">
-                        <form method="POST" action="{{ route('settings-equipment.store') }}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="simpleinput">Nama Jenis</label>
-                                            <input type="text" name="name" class="form-control">
-                                        </div>
+                        <div class="card-body">
+                            <form action="{{ route('settings-admin.store') }}" method="POST">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">ID Kakitangan</label>
+                                        <input type="text" class="form-control" name="staff_id" id="inputEmail4">
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="customFile">Gambar Utama</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="image">
-                                                <label class="custom-file-label" for="customFile">Muat Naik</label>
-                                            </div>
-                                        </div>
-                                    </div> <!-- /.col -->
 
                                 </div>
-                                <div>
-                                    <div>
-                                        <button type="submit" class="btn btn-primary rounded btn-md">Daftar</button>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Email</label>
+                                        <input type="email" class="form-control" name="email" id="inputEmail4">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Sektor</label>
+                                        <select class="form-control" name="sector" id="inputEmail4">
+                                            <option>-- Sila Pilih Sektor --</option>
+                                            <option value="Sistem Komputer">Sistem Komputer</option>
+                                            <option value="Tekstil Pakaian">Tekstil Pakaian</option>
+                                            <option value="Elektrik">Elektrik</option>
+                                            <option value="Automotif">Automotif</option>
+                                            <option value="Motosikal">Motosikal</option>
+                                            <option value="Kulinari">Kulinari</option>
+                                            <option value="Pastri">Pastri</option>
+                                            <option value="Penyaman Udara">Penyaman Udara</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="firstname">Nama</label>
+                                        <input type="text" name="name" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="lastname">No Telefon</label>
+                                        <input type="text" name="phone_no" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                                <hr class="my-4">
+                                <button class="btn btn-lg btn-primary" type="submit">Daftar</button>
+                            </form>
+                        </div>
                     </div> <!-- / .card -->
-                    <!-- end section -->
-                </div> <!-- .col-12 -->
+
+                </div>
             </div> <!-- .row-->
         </div> <!-- .col-12 -->
     </div> <!-- .row -->

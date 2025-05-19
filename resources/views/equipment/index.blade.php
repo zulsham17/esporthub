@@ -10,7 +10,14 @@
         <div class="col-12">
             <div class="row align-items-center mb-2">
                 <div class="col">
-                    <h2 class="h5 page-title">Welcome Admin! {{ Auth::user()->fullname }}</h2>
+                    <div class="d-flex justify-content-start">
+                        @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                        @endif
+                        @if(session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}<i class="fa fa-times ml-1"></i></div>
+                        @endif
+                    </div>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
@@ -33,9 +40,11 @@
                 <div class="col-md-12 col-lg-12">
                     <div class="card shadow">
                         <div class="card-header">
-                            <div class="d-flex flex-row justify-content-between">
+                            
+                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                <h3 class="card-title">Inventori Peralatan Sukan</h3>
                                 <a href="{{ route('equipment.create') }}" class="btn btn-primary btn-md rounded d-flex align-items-center"><i class="fa fa-add mr-2"></i> Peralatan Baru</a>
-                                <a class="float-right small text-muted" href="#!">View all</a>
+
                             </div>
 
                         </div>
@@ -49,7 +58,7 @@
                                         <th>Peralatan Rosak</th>
                                         <th>Peralatan Sudah Dibaiki</th>
                                         <th>Peralatan Hilang</th>
-                                        <th>Peralatan Sudah Diganti</th>  
+                                        <th>Peralatan Sudah Diganti</th>
                                     </tr>
                                 </thead>
                                 <tbody>

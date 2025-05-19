@@ -19,7 +19,7 @@
                     <a class="nav-link pl-3" href="{{ route('settings-equipment.index') }}"><span class="ml-1 item-text">Peralatan</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{ route('settings-equipment.index') }}"><span class="ml-1 item-text">Admin</span></a>
+                    <a class="nav-link pl-3" href="{{ route('settings-admin.index') }}"><span class="ml-1 item-text">Admin</span></a>
                 </li>
 
             </ul>

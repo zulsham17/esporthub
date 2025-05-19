@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminApplyController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Setting\EquipmentSettingController;
@@ -68,4 +69,6 @@ Route::get('/profile', [ProfileController::class, 'profilePage'])->name('profile
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::get('/profile/reset-password', [ProfileController::class, 'resetPasswordPage'])->name('profile.reset-password');
 Route::post('/profile/reset-password', [ProfileController::class, 'resetPassword'])->name('profile.reset-password.submit');
+
+Route::resource('/settings-admin', AdminController::class);
 

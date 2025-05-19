@@ -10,7 +10,14 @@
         <div class="col-12">
             <div class="row align-items-center mb-2">
                 <div class="col">
-                    <a class="btn btn-primary rounded btn-sm" href="{{ route('settings-equipment.index') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    <div class="d-flex justify-content-start">
+                        @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                        @endif
+                        @if(session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}<i class="fa fa-times ml-1"></i></div>
+                        @endif
+                    </div>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
@@ -29,42 +36,53 @@
             </div>
 
             <div class="row">
-                <div class="col-12">
-                    <h2 class="page-title">Tambah jenis peralatan baru</h2>
-                    <div class="card shadow mb-4">
-                        <form method="POST" action="{{ route('settings-equipment.store') }}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="simpleinput">Nama Jenis</label>
-                                            <input type="text" name="name" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="customFile">Gambar Utama</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="image">
-                                                <label class="custom-file-label" for="customFile">Muat Naik</label>
-                                            </div>
-                                        </div>
-                                    </div> <!-- /.col -->
-
-                                </div>
-                                <div>
-                                    <div>
-                                        <button type="submit" class="btn btn-primary rounded btn-md">Daftar</button>
-                                    </div>
-                                </div>
+                <!-- Striped rows -->
+                <div class="col-md-12 col-lg-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="card-title">Senarai Admin</h3>
+                                <a class="btn btn-primary btn-md" href="{{ route('settings-admin.create') }}"><i class="fa fa-plus"></i> Admin Baru</a>
                             </div>
-                        </form>
-                    </div> <!-- / .card -->
-                    <!-- end section -->
-                </div> <!-- .col-12 -->
+                        </div>
+                        <div class="card-body my-n2">
+                            <table class="table table-striped table-hover table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>No. </th>
+                                        <th>Nama</th>
+                                        <th>No Telefon</th>
+                                        <th>Email</th>
+                                        <th>Tindakan</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($admin as $index => $user)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $user->fullname }}</td>
+                                        <td>{{ $user->phone_no }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            <a href="{{ route('settings-admin.edit', $user->id) }}" class="btn btn-sm btn-warning rounded"><i class="fa fa-edit text-white"></i></a>
+                                            <form action="{{ route('settings-admin.destroy', $user->id) }}" method="POST" class="d-inline"
+                                                onsubmit="return confirm('Adakah anda pasti mahu padam admin ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger rounded ml-2">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- Striped rows -->
             </div> <!-- .row-->
         </div> <!-- .col-12 -->
     </div> <!-- .row -->

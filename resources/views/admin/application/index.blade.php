@@ -10,7 +10,14 @@
         <div class="col-12">
             <div class="row align-items-center mb-2">
                 <div class="col">
-                    <a class="text-primary" href="{{ route('application.create') }}">Buat Permohonan Pinjaman</a>
+                    <div class="d-flex justify-content-start">
+                        @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                        @endif
+                        @if(session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}<i class="fa fa-times ml-1"></i></div>
+                        @endif
+                    </div>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
