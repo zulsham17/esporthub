@@ -8,6 +8,14 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
+            <div class="d-flex justify-content-start">
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}<i class="fa fa-times ml-1"></i></div>
+                @endif
+            </div>
             <div class="row align-items-center mb-2">
                 <div class="col">
                     <a class="text-primary" href="{{ route('settings-equipment.create') }}">Tambah Jenis Perlatan Baru</a>
@@ -33,8 +41,17 @@
                 <div class="col-md-12 col-lg-12">
                     <div class="card shadow">
                         <div class="card-header">
-                            <h3 class="card-title">Senarai Jenis Peralatan</h3>
+                            <div class="d-flex flex-row justify-content-between align-items-center">
 
+                                <h3 class="card-title mb-0">Senarai Jenis Peralatan</h3>
+
+                                <div class="d-flex flex-row align-items-center">
+                                    <i class="fas fa-search mr-2"></i>
+                                    <input type="text" id="searchEquipment" class="form-control w-auto shadow-sm"
+                                        placeholder="Cari Peralatan..." style="min-width: 250px;">
+                                </div>
+
+                            </div>
                         </div>
                         <div class="card-body my-n2">
                             <table class="table table-striped table-hover table-borderless">
@@ -43,7 +60,7 @@
                                         <th>No. </th>
                                         <th>Nama Jenis Peralatan</th>
                                         <th>Gambar</th>
-                                    
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,7 +75,7 @@
                                             Tiada Gambar
                                             @endif
                                         </td>
-                                    
+
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -195,3 +212,27 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById("searchEquipment");
+        const tableRows = document.querySelectorAll("table tbody tr");
+
+        searchInput.addEventListener("keyup", function() {
+            const query = this.value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                const rowText = Array.from(cells).map(cell => cell.innerText.toLowerCase()).join(" ");
+
+                if (rowText.includes(query)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    });
+</script>
+@endpush

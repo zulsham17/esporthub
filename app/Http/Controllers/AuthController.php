@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+
     public function loginpage(){
         return view("auth/login");
     }
@@ -39,9 +40,9 @@ class AuthController extends Controller
 
             // Redirect based on user level
             if ($user->roles == 'admin') {
-                return redirect()->route('admin.dashboard')->with('success', 'Selamat Datang Admin!');
+                return redirect()->route('admin.dashboard')->with('success', 'Log Masuk Berjaya!');
             } elseif ($user->roles == 'student') {
-                return redirect()->route('user.dashboard')->with('success', 'Selamat Datang Pengguna!');
+                return redirect()->route('user.dashboard')->with('success', 'Log Masuk Berjaya!');
             }  else {
                 return redirect()->route('login')->withErrors([
                     'email' => 'User level not recognized.',

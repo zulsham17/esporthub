@@ -43,7 +43,7 @@
                             <h3 class="card-title">Senarai Permohonan</h3>
 
                         </div>
-                        <div class="card-body my-n2">
+                        <div class="card-body my-2">
                             <table class="table table-striped table-hover table-borderless">
                                 <thead>
                                     <tr>
@@ -66,28 +66,43 @@
                                         <td>{{ $app->applicant_matric_no }}</td>
                                         <td>{{ $app->equipment_type }}</td>
                                         <td>{{ $app->equipment_names }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($app->date_borrow)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($app->date_return)->format('d-m-Y') }}</td>
+                                        <td>
+                                            @if ($app->date_borrow == $app->date_return)
+                                            {{ \Carbon\Carbon::parse($app->date_borrow)->format('d-m-Y') }}
+                                            @else
+                                            {{ \Carbon\Carbon::parse($app->date_borrow)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($app->date_return)->format('d-m-Y') }}
+                                            @endif
+
+                                        </td>
 
                                         <td>
                                             {{ \Carbon\Carbon::parse($app->time_borrow)->format('g:i A') }} - {{ \Carbon\Carbon::parse($app->time_return)->format('g:i A') }}
                                         </td>
 
                                         <td>
+                                            @if($app->status == 'Diproses')
+                                            <span class="badge fs-6 bg-info text-white">
+                                                Baru*
+                                            </span>
+                                            @else
                                             <span class="badge fs-6 bg-{{ 
                                                                     $app->status === 'Lulus' ? 'success' : 
                                                                     ($app->status === 'Ditolak' ? 'danger' : 
                                                                     ($app->status === 'Selesai' ? 'primary' : 'warning')) 
-}}">
+                                                }}  text-{{ $app->status === 'Lulus' ? 'dark' : 
+                                                                    ($app->status === 'Ditolak' ? 'white' : 
+                                                                    ($app->status === 'Diproses' ? 'dark' : 'white'))  }}">
                                                 {{ $app->status }}
                                             </span>
+                                            @endif
                                         </td>
                                         <td class="text-center">
                                             @if($app->status == 'Lulus')
-                                            <form action="{{ route('admin.application.update', $app->id) }}" method="POST" class="d-inline ms-1">
+                                            <form action="{{ route('admin.application.update', $app->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="status" value="Selesai">
-                                                <button type="submit" class="btn btn-warning btn-sm ml-2"><i class="fas fa-undo-alt"></i></button>
+                                                <button title="Telah Dipulangkan" type="submit" class="btn btn-warning btn-sm"><i class="fas fa-undo"></i></button>
                                             </form>
                                             @elseif($app->status == 'Diproses')
                                             <form action="{{ route('admin.application.update', $app->id) }}" method="POST" class="d-inline">
@@ -111,6 +126,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="d-flex justify-content-end mt-3">
+                                {{ $applications->onEachSide(1)->links('pagination::bootstrap-4') }}
+                            </div>
                         </div>
                     </div>
                 </div> <!-- Striped rows -->

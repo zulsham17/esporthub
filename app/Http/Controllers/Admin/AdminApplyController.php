@@ -49,7 +49,7 @@ class AdminApplyController extends Controller
                 'application.created_at'
             )
             ->orderByDesc('application.created_at')
-            ->get();
+            ->paginate(10);
 
         return view('admin.application.index', compact('applications'));
     }
@@ -106,9 +106,19 @@ class AdminApplyController extends Controller
             DB::table('equipment')
                 ->whereIn('id', $equipmentIds)
                 ->update(['status' => 'Tersedia']);
+
+            return redirect()->back()->with('success', 'Pinjaman Selesai. Alatan sudah dipulangkan.');
         }
 
-        return redirect()->back()->with('success', 'Status updated successfully.');
+        if ($request->status === 'Lulus') {
+        return redirect()->back()->with('success', 'Permohonan diterima.');
+        }
+
+        else{
+            return redirect()->back()->with('success', 'Permohonan ditolak.');
+        }
+
+        
     }
 
     /**

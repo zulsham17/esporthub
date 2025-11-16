@@ -8,6 +8,14 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
+            <div class="d-flex justify-content-start">
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}<i class="fa fa-times ml-1"></i></div>
+                @endif
+            </div>
             <div class="row align-items-center mb-2">
                 <div class="col">
                     <h2 class="h5 page-title">Welcome! {{ Auth::user()->fullname }}</h2>
@@ -27,8 +35,8 @@
                     </form>
                 </div>
             </div>
-            
-    
+
+
         </div> <!-- .col-12 -->
     </div> <!-- .row -->
 </div> <!-- .container-fluid -->

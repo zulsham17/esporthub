@@ -29,14 +29,26 @@
                 </div>
             </div>
 
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="d-flex flex-row align-items-center">
+                        <i class="fas fa-search mr-2"></i>
+                        <input type="text" id="searchEquipments" class="form-control w-auto shadow-sm"
+                            placeholder="Cari Peralatan..." style="min-width: 250px;">
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 @foreach ($equipmentGroups as $group)
-                <div class="col-md-4 d-flex align-items-stretch mb-4">
-                    <div class="card equipment-card mb-4 shadow-sm w-100">
+                <div class="col-md-4 mb-4 equipment-container">
+                    <div class="card equipment-card shadow-sm w-100">
                         <img src="{{ asset('storage/' . $group->image) }}" class="card-img-top" alt="Equipment Image">
                         <div class="card-body text-center">
                             <h5 class="equipment-type">{{ $group->type }}</h5>
-                            <p class="equipment-qty">Jumlah Alatan: <span class="text-primary font-weight-bold">{{ $group->quantity }}</span></p>
+                            <p class="equipment-qty">Jumlah Alatan:
+                                <span class="text-primary font-weight-bold">{{ $group->quantity }}</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -169,3 +181,45 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const searchInput = document.getElementById("searchEquipments");
+
+        // Select all equipment cards
+        const cards = document.querySelectorAll(".equipment-card");
+
+        searchInput.addEventListener("keyup", function() {
+            const query = this.value.toLowerCase().trim();
+
+            cards.forEach(card => {
+
+                const typeText = card.querySelector(".equipment-type").innerText.toLowerCase();
+                const parentCol = card.closest(".col-md-4"); // IMPORTANT
+
+                if (typeText.includes(query)) {
+
+                    // SHOW
+                    card.style.display = "";
+                    parentCol.classList.remove("d-none");
+
+                    // OPTIONAL: expand to full width if only one result shown
+                    parentCol.classList.remove("col-12");
+                    parentCol.classList.add("col-md-4");
+
+                } else {
+
+                    // HIDE / COLLAPSE completely
+                    card.style.display = "none";
+                    parentCol.classList.add("d-none"); // hides entire column
+
+                }
+            });
+
+            
+        });
+    });
+</script>
+@endpush

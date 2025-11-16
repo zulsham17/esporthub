@@ -8,6 +8,14 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
+            <div class="d-flex justify-content-start">
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}<i class="fa fa-times ml-1"></i></div>
+                @endif
+            </div>
             <div class="row align-items-center mb-2">
                 <div class="col">
                     <a class="btn btn-primary rounded btn-sm" href="{{ route('equipment.index') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
@@ -226,7 +234,12 @@
                     </div>
                     <div class="mb-3">
                         <label>Jenis</label>
-                        <input type="text" class="form-control" name="type" id="edit-type">
+                        <select class="form-control" id="edit-type" name="type">
+                            <option>-- Sila Pilih --</option>
+                            @foreach ($master as $item)
+                            <option value="{{ $item->type_name }}">{{ $item->type_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label>Status</label>

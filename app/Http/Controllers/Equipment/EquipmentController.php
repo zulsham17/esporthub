@@ -17,6 +17,8 @@ class EquipmentController extends Controller
             ->select(
                 'type',
                 DB::raw('COUNT(*) as total'),
+                DB::raw("SUM(CASE WHEN status = 'Ditempah' THEN 1 ELSE 0 END) as ditempah"),
+                DB::raw("SUM(CASE WHEN status = 'Tersedia' THEN 1 ELSE 0 END) as tersedia"),
                 DB::raw("SUM(CASE WHEN status = 'Rosak' THEN 1 ELSE 0 END) as rosak"),
                 DB::raw("SUM(CASE WHEN status = 'Sudah Dibaiki' THEN 1 ELSE 0 END) as sudah_dibaiki"),
                 DB::raw("SUM(CASE WHEN status = 'Hilang' THEN 1 ELSE 0 END) as hilang"),
@@ -94,7 +96,10 @@ class EquipmentController extends Controller
         $items = DB::table('equipment')->where('type', $type)
         ->get();
 
-        return view('equipment.show-by-type', compact('items', 'type'));
+        $master = DB::table('equipment_master')
+            ->get();
+
+        return view('equipment.show-by-type', compact('items', 'type', 'master'));
     }
 
     public function getByType($type)

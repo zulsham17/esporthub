@@ -28,7 +28,7 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/app-light.css') }}" id="lightTheme" disabled>
     <link rel="stylesheet" href="{{ asset('assets/css/app-dark.css') }}" id="darkTheme">
-    
+
 </head>
 
 <body class="dark">
@@ -36,95 +36,109 @@
         <a href="{{ route('login-page') }}" class="btn btn-secondary btn-md m-3"><i class="fa-solid fa-arrow-left mr-2"></i>Kembali</a>
         <div id="custom-toast-container" class="position-fixed top-0 right-0 mt-5 mr-5" style="z-index: 1050;"></div>
         <div class="row align-items-center h-100">
-            <form class="col-lg-6 col-md-8 col-10 mx-auto" action="{{ route('register') }}" method="POST">
-                @csrf
-                <div class="mx-auto text-center my-4">
-                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{{route('landing-page')}}">
-                        <!-- <svg version="1.1" id="logo" class="navbar-brand-img brand-md" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
-                            <g>
-                                <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
-                                <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
-                                <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
-                            </g>
-                        </svg> -->
-                        <img src="{{ asset('assets/img/stdc-logo-png.png') }}" width="28%">
-                    </a>
-                    <h2 class="my-3">Daftar Pengguna</h2>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail4">No Matrik</label>
-                        <input type="text" class="form-control" name="matric" id="inputEmail4">
-                    </div>
+            <div class="col-lg-6 col-md-8 col-11 mx-auto">
 
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail4">Email</label>
-                        <input type="email" class="form-control" name="email" id="inputEmail4">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail4">Sektor</label>
-                        <select class="form-control" name="sector" id="inputEmail4">
-                            <option>-- Sila Pilih Sektor --</option>
-                            <option value="Sistem Komputer">Sistem Komputer</option>
-                            <option value="Tekstil Pakaian">Tekstil Pakaian</option>
-                            <option value="Elektrik">Elektrik</option>
-                            <option value="Automotif">Automotif</option>
-                            <option value="Motosikal">Motosikal</option>
-                            <option value="Kulinari">Kulinari</option>
-                            <option value="Pastri">Pastri</option>
-                            <option value="Penyaman Udara">Penyaman Udara</option>
-                        </select>
-                    </div>
+                <div class="card border-white shadow-sm" style="border-radius: 12px;">
+                    <div class="card-body p-4">
 
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="firstname">Nama</label>
-                        <input type="text" name="name" class="form-control">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="lastname">No Telefon</label>
-                        <input type="text" name="phone_no" class="form-control">
-                    </div>
-                </div>
-                <hr class="my-4">
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="inputPassword5">Kata Laluan</label>
-                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password">
-                            @error('password')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                        <form action="{{ route('register') }}" method="POST">
+                            @csrf
+
+                            <div class="mx-auto text-center mb-4">
+                                <a class="navbar-brand flex-fill text-center" href="{{route('landing-page')}}">
+                                    <img src="{{ asset('assets/img/stdc-logo-png.png') }}" width="28%">
+                                </a>
+                                <h2 class="my-3">Daftar Pengguna</h2>
                             </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword6">Sahkan Kata Laluan</label>
-                            <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" id="confrimPassword">
-                            @error('password_confirmation')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>No Matrik</label>
+                                    <input type="text" class="form-control" name="matric">
+                                </div>
                             </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="mb-2">Keperluan Kata Laluan</p>
-                        <p class="small text-muted mb-2">Untuk mencipta kata laluan baharu, anda perlu memenuhi semua keperluan berikut:</p>
-                        <ul class="small text-muted pl-4 mb-0">
-                            <li>Minimum 8 aksara</li>
-                            <li>Sekurang-kurangnya satu aksara khas</li>
-                            <li>Sekurang-kurangnya satu nombor</li>
-                            <li>Tidak boleh sama seperti kata laluan sebelumnya</li>
-                        </ul>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" name="email">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Sektor</label>
+                                    <select class="form-control" name="sector">
+                                        <option>-- Sila Pilih Sektor --</option>
+                                        <option value="Sistem Komputer">Sistem Komputer</option>
+                                        <option value="Tekstil Pakaian">Tekstil Pakaian</option>
+                                        <option value="Elektrik">Elektrik</option>
+                                        <option value="Automotif">Automotif</option>
+                                        <option value="Motosikal">Motosikal</option>
+                                        <option value="Kulinari">Kulinari</option>
+                                        <option value="Pastri">Pastri</option>
+                                        <option value="Penyaman Udara">Penyaman Udara</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Nama</label>
+                                    <input type="text" name="name" class="form-control">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>No Telefon</label>
+                                    <input type="text" name="phone_no" class="form-control">
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Kata Laluan</label>
+                                        <input type="password" name="password"
+                                            class="form-control @error('password') is-invalid @enderror" id="password">
+                                        @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Sahkan Kata Laluan</label>
+                                        <input type="password" name="password_confirmation"
+                                            class="form-control @error('password_confirmation') is-invalid @enderror">
+                                        @error('password_confirmation')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <p class="mb-2 font-weight-bold">Keperluan Kata Laluan</p>
+                                    <p class="small text-muted mb-2">
+                                        Untuk mencipta kata laluan baharu, anda perlu memenuhi semua keperluan berikut:
+                                    </p>
+                                    <ul class="small text-muted pl-4 mb-0">
+                                        <li>Minimum 8 aksara</li>
+                                        <li>Sekurang-kurangnya satu aksara khas</li>
+                                        <li>Sekurang-kurangnya satu nombor</li>
+                                        <li>Tidak boleh sama seperti kata laluan sebelumnya</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                                Daftar
+                            </button>
+
+                        </form>
+
                     </div>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Daftar</button>
-                
-            </form>
+
+            </div>
         </div>
     </div>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>

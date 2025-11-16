@@ -38,45 +38,56 @@
 <body class="dark ">
     <div class="wrapper vh-100">
         <div class="row align-items-center h-100">
-            <form class="col-lg-3 col-md-4 col-10 mx-auto text-center" method="post" action="{{route('login')}}">
-                @csrf
-                <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{{route('landing-page')}}">
-                    <!-- <svg version="1.1" id="logo" class="navbar-brand-img brand-md" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120"
-                        xml:space="preserve">
-                        <g>
-                            <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
-                            <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
-                            <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
-                        </g>
-                    </svg> -->
-                    <img src="{{ asset('assets/img/stdc-logo-png.png') }}" width="48%">
-                </a>
-                <h1 class="h4 my-3">Log Masuk</h1>
-                <div class="form-group">
-                    <label for="inputEmail" class="sr-only">Email</label>
-                    <input type="email" id="inputEmail" name="email" class="form-control form-control-lg" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword" class="sr-only">Kata Laluan</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control form-control-lg"
-                        placeholder="Kata Laluan">
-                    <div class="mt-2 text-right">
-                        <a href="{{ route('forgot-password-page') }}">Lupa Kata Laluan?</a>
+            <div class="col-lg-4 col-md-6 col-11 mx-auto">
+
+                <div class="card shadow-sm border-white" style="border-radius: 12px;">
+                    <div class="card-body p-4">
+
+                        <form method="post" action="{{ route('login') }}">
+                            @csrf
+
+                            <div class="text-center mb-3">
+                                <a class="navbar-brand mx-auto flex-fill text-center" href="{{ route('landing-page') }}">
+                                    <img src="{{ asset('assets/img/stdc-logo-png.png') }}" width="48%">
+                                </a>
+                            </div>
+
+                            <h1 class="h4 text-center mb-4">Log Masuk</h1>
+
+                            <div class="form-group">
+                                <label for="inputEmail" class="sr-only">Email</label>
+                                <input type="email" id="inputEmail" name="email" class="form-control form-control-lg" placeholder="Email">
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label for="inputPassword" class="sr-only">Kata Laluan</label>
+                                <input type="password" name="password" id="inputPassword"
+                                    class="form-control form-control-lg" placeholder="Kata Laluan">
+                                <div class="mt-2 text-right">
+                                    <a href="{{ route('forgot-password-page') }}">Lupa Kata Laluan?</a>
+                                </div>
+                            </div>
+
+                            @if($errors->any())
+                            <div class="alert alert-danger mt-3">
+                                {{ $errors->first() }}
+                            </div>
+                            @endif
+
+                            <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">
+                                Log Masuk
+                            </button>
+
+                            <div class="mt-4 text-center">
+                                <a href="{{ route('register-page') }}">Daftar Pengguna Baru</a>
+                            </div>
+
+                        </form>
+
                     </div>
                 </div>
 
-                @if($errors->any())
-                <div class="alert alert-danger">
-                    {{ $errors->first() }}
-                </div>
-                @endif
-
-                <button class="btn btn-lg btn-primary btn-block mt-5" type="submit">Log Masuk</button>
-
-                <div class="mt-5 mb-3"><a href="{{ route('register-page') }}">Daftar Pengguna Baru</a></div>
-
-            </form>
+            </div>
         </div>
     </div>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>

@@ -10,8 +10,8 @@
         <div class="col-12">
             <div class="row align-items-center mb-2">
                 <div class="col">
-                    <a class="btn btn-primary rounded btn-sm mr-2" href="{{ route('user.dashboard') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
-                    <a class="text-primary" href="{{ route('application.index') }}">Senarai Permohonan</a>
+                    <a class="btn btn-primary rounded btn-sm mr-2" href="{{ route('user.dashboard') }}"><i class="fa fa-arrow-left mr-2"></i> Kembali</a>
+                    <a class="btn btn-secondary rounded btn-sm" href="{{ route('application.index') }}"><i class="fa fa-list mr-2"></i>Senarai Permohonan</a>
                 </div>
                 <div class="col-auto">
                     <form class="form-inline">
@@ -94,18 +94,33 @@
                                     </div>
                                 </div>
 
-
-                                    <button type="button" class="btn btn-secondary mt-1" id="add-equipment">Tambah Alatan</button>
-
-                                    <div class="mt-4">
-                                        <button type="submit" class="btn btn-primary">Hantar Permohonan</button>
+                                <div class="d-flex flex-row align-items-center mt-3">
+                                    <button type="button" class="btn btn-secondary btn-sm rounded mr-4" id="add-equipment"><i class="fa fa-add mr-2"></i>Tambah Alatan</button>
+                                    <div class="d-flex flex-row align-items-center mb-0">
+                                        <span>Kuantiti :</span>
+                                        <span class="h5 mb-0 ml-1" id="equipment-count">0</span>
                                     </div>
                                 </div>
+
+
+
+
+
+                                <div class="mt-4">
+                                    <button type="submit" class="btn btn-success text-white"><i class="fa fa-paper-plane mr-2"></i>Hantar Permohonan</button>
+                                </div>
+                            </div>
                         </form>
 
                         <!-- JavaScript to handle dynamic equipment loading -->
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
+
+                                function updateEquipmentCount() {
+                                    const count = document.querySelectorAll('.equipment-row').length;
+                                    document.getElementById('equipment-count').innerText = count;
+                                }
+
                                 function fetchEquipmentNames(type, targetSelect) {
                                     if (!type) {
                                         targetSelect.innerHTML = '<option value="">-- Pilih Nama Alatan --</option>';
@@ -122,6 +137,8 @@
                                                 option.textContent = item.name;
                                                 targetSelect.appendChild(option);
                                             });
+
+                                            refreshEquipmentOptions();
                                         })
                                         .catch(() => {
                                             targetSelect.innerHTML = '<option value="">Tiada alatan dijumpai</option>';
@@ -136,21 +153,79 @@
                                         fetchEquipmentNames(this.value, nameSelect);
                                     });
 
+                                    nameSelect.addEventListener('change', function() {
+                                        updateEquipmentCount();
+                                        refreshEquipmentOptions();
+                                    });
+
                                     row.querySelector('.btn-remove-equipment').addEventListener('click', function() {
-                                        row.remove();
+                                        if (document.querySelectorAll('.equipment-row').length > 1) {
+                                            row.remove();
+                                            updateEquipmentCount();
+                                            refreshEquipmentOptions();
+                                        }
                                     });
                                 }
 
+                                function updateEquipmentCount() {
+                                    const rows = document.querySelectorAll('.equipment-row');
+                                    let count = 0;
+
+                                    rows.forEach(row => {
+                                        const equipmentName = row.querySelector('.equipment-name').value;
+                                        if (equipmentName !== "") {
+                                            count++;
+                                        }
+                                    });
+
+                                    document.getElementById('equipment-count').innerText = count;
+                                }
+
+                                function refreshEquipmentOptions() {
+                                    const selectedIds = [];
+
+                                    // Get all selected equipment-name values
+                                    document.querySelectorAll('.equipment-name').forEach(select => {
+                                        if (select.value) {
+                                            selectedIds.push(select.value);
+                                        }
+                                    });
+
+                                    // Disable selected values in all dropdowns
+                                    document.querySelectorAll('.equipment-name').forEach(select => {
+                                        const currentValue = select.value;
+
+                                        Array.from(select.options).forEach(option => {
+                                            if (!option.value) return; // skip placeholder
+
+                                            if (selectedIds.includes(option.value) && option.value !== currentValue) {
+                                                option.disabled = true;
+                                                option.style.color = "#ccc";
+                                            } else {
+                                                option.disabled = false;
+                                                option.style.color = "";
+                                            }
+                                        });
+                                    });
+                                }
+
+                                // Init existing row(s)
                                 document.querySelectorAll('.equipment-row').forEach(bindEvents);
 
                                 document.getElementById('add-equipment').addEventListener('click', function() {
                                     const firstRow = document.querySelector('.equipment-row');
                                     const newRow = firstRow.cloneNode(true);
+
                                     newRow.querySelector('.equipment-types').value = '';
                                     newRow.querySelector('.equipment-name').innerHTML = '';
+
                                     document.getElementById('equipment-selections').appendChild(newRow);
                                     bindEvents(newRow);
+                                    updateEquipmentCount();
                                 });
+
+                                // On initial load
+                                updateEquipmentCount();
                             });
                         </script>
                     </div> <!-- / .card -->

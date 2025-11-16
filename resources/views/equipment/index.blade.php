@@ -40,25 +40,38 @@
                 <div class="col-md-12 col-lg-12">
                     <div class="card shadow">
                         <div class="card-header">
-                            
+
                             <div class="d-flex flex-row justify-content-between align-items-center">
-                                <h3 class="card-title">Inventori Peralatan Sukan</h3>
-                                <a href="{{ route('equipment.create') }}" class="btn btn-primary btn-md rounded d-flex align-items-center"><i class="fa fa-add mr-2"></i> Peralatan Baru</a>
+                                <h3 class="card-title mb-0">Inventori Peralatan Sukan</h3>
+                                <div class="d-flex flex-row align-items-center">
+                                    <i class="fas fa-search mr-2"></i>
+                                    <input type="text" id="searchEquipment" class="form-control w-auto shadow-sm"
+                                        placeholder="Cari Peralatan..." style="min-width: 250px;">
+                                </div>
 
                             </div>
-
                         </div>
-                        <div class="card-body my-n2">
+                        <div class="row px-4">
+                            <div class="col-12">
+                                <div class="d-flex">
+                                    <a href="{{ route('equipment.create') }}" class="btn btn-primary btn-md rounded d-flex align-items-center"><i class="fa fa-add mr-2"></i> Peralatan Baru</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
                             <table class="table table-striped table-hover table-borderless">
                                 <thead>
                                     <tr>
                                         <th>No. </th>
                                         <th style="width:200px;">Jenis Peralatan</th>
+                                        <th>Ditempah</th>
+                                        <th>Tersedia</th>
+                                        <th>Rosak</th>
+                                        <th>Dibaiki</th>
+                                        <th>Hilang</th>
+                                        <th>Diganti</th>
                                         <th>Kuantiti</th>
-                                        <th>Peralatan Rosak</th>
-                                        <th>Peralatan Sudah Dibaiki</th>
-                                        <th>Peralatan Hilang</th>
-                                        <th>Peralatan Sudah Diganti</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,11 +91,13 @@
                                             </div>
 
                                         </td>
-                                        <td>{{ $item->total }}</td>
+                                        <td>{{ $item->ditempah }}</td>
+                                        <td>{{ $item->tersedia }}</td>
                                         <td>{{ $item->rosak }}</td>
                                         <td>{{ $item->sudah_dibaiki }}</td>
                                         <td>{{ $item->hilang }}</td>
                                         <td>{{ $item->sudah_diganti }}</td>
+                                        <td>{{ $item->total }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -218,3 +233,27 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById("searchEquipment");
+        const tableRows = document.querySelectorAll("table tbody tr");
+
+        searchInput.addEventListener("keyup", function() {
+            const query = this.value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                const rowText = Array.from(cells).map(cell => cell.innerText.toLowerCase()).join(" ");
+
+                if (rowText.includes(query)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    });
+</script>
+@endpush

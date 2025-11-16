@@ -9,21 +9,8 @@
         <li class="nav-item"><a href="{{ route('equipment.index') }}" class="nav-link"><i class="fa fa-box"></i> <span class="ml-3 item-text">Inventori Peralatan Sukan</span></a></li>
         <li class="nav-item"><a href="{{ route('admin.application.index') }}" class="nav-link"><i class="fa fa-folder-open"></i> <span class="ml-3 item-text">Senarai Permohonan</span></a></li>
         <li class="nav-item"><a href="{{ route('user.index') }}" class="nav-link"><i class="fa fa-users"></i> <span class="ml-3 item-text">Senarai Pengguna</span></a></li>
-        <li class="nav-item dropdown">
-            <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                <i class="fa fa-gear"></i>
-                <span class="ml-3 item-text">Setting</span>
-            </a>
-            <ul class="collapse list-unstyled pl-4 w-100" id="dashboard">
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{ route('settings-equipment.index') }}"><span class="ml-1 item-text">Peralatan</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link pl-3" href="{{ route('settings-admin.index') }}"><span class="ml-1 item-text">Admin</span></a>
-                </li>
-
-            </ul>
-        </li>
+        <li class="nav-item"><a href="{{ route('settings-equipment.index') }}" class="nav-link"><i class="fa fa-futbol"></i> <span class="ml-3 item-text">Senarai Peralatan</span></a></li>
+        <li class="nav-item"><a href="{{ route('settings-admin.index') }}" class="nav-link"><i class="fa fa-user-shield"></i> <span class="ml-3 item-text">Senarai Admin</span></a></li>
         <li class="nav-item">
             <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fe fe-log-out"></i> <span class="ml-3 item-text">Log Keluar</span>

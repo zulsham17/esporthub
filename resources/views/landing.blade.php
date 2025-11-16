@@ -19,10 +19,12 @@
             <a class="navbar-brand" href="#page-top">SportHub STDC</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#main">Utama</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">Tentang Kami</a></li>
                     <li class="nav-item"><a class="nav-link" href="#service">Servis</a></li>
+                    <li class="ms-3 nav-item"><a class="btn btn-primary btn-sm" href="{{ route('login-page') }}">Log Masuk</a></li>
+                    <li class="mx-2 nav-item"><a class="text-primary" href="{{ route('register-page') }}" style="text-decoration: none;">Daftar</a></li>
                 </ul>
             </div>
         </div>

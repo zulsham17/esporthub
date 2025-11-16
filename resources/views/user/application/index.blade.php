@@ -8,6 +8,14 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
+            <div class="d-flex justify-content-start">
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check ml-1"></i></div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}<i class="fa fa-times ml-1"></i></div>
+                @endif
+            </div>
             <div class="row align-items-center mb-2">
                 <div class="col">
                     <a class="btn btn-primary rounded btn-sm mr-2" href="{{ route('user.dashboard') }}"><i class="fa fa-arrow-left"></i> Kembali</a>
@@ -60,7 +68,13 @@
                                             {{ \Carbon\Carbon::parse($app->time_borrow)->format('g:i A') }} - {{ \Carbon\Carbon::parse($app->time_return)->format('g:i A') }}
                                         </td>
                                         <td>
-                                            <span class="fs-7 py-2 px-3 badge bg-{{ $app->status === 'Lulus' ? 'success' : ($app->status === 'Ditolak' ? 'danger' : 'warning') }} text-dark font-weight-semibold rounded-pill">
+                                            <span class="fs-7 py-2 px-3 badge bg-{{ 
+                                                                    $app->status === 'Lulus' ? 'success' : 
+                                                                    ($app->status === 'Ditolak' ? 'danger' : 
+                                                                    ($app->status === 'Selesai' ? 'primary' : 'warning')) 
+                                                }}  text-{{ $app->status === 'Lulus' ? 'dark' : 
+                                                                    ($app->status === 'Ditolak' ? 'white' : 
+                                                                    ($app->status === 'Diproses' ? 'dark' : 'white'))  }} font-weight-semibold rounded-pill">
                                                 {{ $app->status }}
                                             </span>
                                         </td>

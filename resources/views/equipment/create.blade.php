@@ -64,7 +64,7 @@
                                                 <option value="Rosak">Rosak</option>
                                                 <option value="Sudah Dibaiki">Sudah Dibaiki</option>
                                                 <option value="Hilang">Hilang</option>
-                                                <option value="Sudah Diganti">Sudah Dibaiki</option>
+                                                <option value="Sudah Diganti">Sudah Diganti</option>
                                             </select>
                                         </div>
                                     </div>
