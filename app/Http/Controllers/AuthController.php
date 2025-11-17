@@ -126,9 +126,9 @@ class AuthController extends Controller
             ->where('email', $validate['email'])
             ->update(['password' => bcrypt($temporaryPassword)]);
 
-        Mail::raw("Kata laluan sementara anda: <strong>$temporaryPassword</strong>", function ($message) use ($user) {
+        Mail::send('emails.temporary-password', ['password' => $temporaryPassword, 'user' => $user], function ($message) use ($user) {
             $message->to($user->email)
-                ->subject('Temporary Password');
+                ->subject('Kata Laluan Sementara Anda');
         });
 
         return back()->with('success', 'Kata laluan sementara telah dihantar ke emel anda.');

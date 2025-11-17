@@ -52,6 +52,7 @@
                                         <th>No. </th>
                                         <th style="width:200px;">Nama</th>
                                         <th>Peralatan yang dipinjam</th>
+                                        <th>Kuantiti</th>
                                         <th>Tarikh Pinjam</th>
                                         <th>Masa Pinjaman</th>
                                         <th>Status</th>
@@ -63,6 +64,7 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $app->applicant_name }}</td>
                                         <td>{{ $app->equipment_names }}</td>
+                                        <td>{{ $app->equipment_count }}</td>
                                         <td>{{ \Carbon\Carbon::parse($app->date_borrow)->format('d/m/Y') }}</td>
                                         <td>
                                             {{ \Carbon\Carbon::parse($app->time_borrow)->format('g:i A') }} - {{ \Carbon\Carbon::parse($app->time_return)->format('g:i A') }}

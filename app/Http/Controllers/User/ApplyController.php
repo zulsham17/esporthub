@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ApplyController extends Controller
 {
@@ -21,7 +22,8 @@ class ApplyController extends Controller
                 'application.time_borrow',
                 'application.time_return',
                 'application.status',
-                DB::raw('GROUP_CONCAT(equipment.name SEPARATOR " , ") as equipment_names')
+                DB::raw('GROUP_CONCAT(equipment.name SEPARATOR " , ") as equipment_names'),
+                DB::raw('COUNT(equipment.id) as equipment_count')
             )
             ->where('application.user_id', auth()->user()->id)
             ->groupBy('application.id', 'application.applicant_name', 'application.date_borrow', 'application.time_borrow', 'application.time_return', 'application.status')
@@ -89,6 +91,41 @@ class ApplyController extends Controller
                 DB::table('equipment')->where('id',$equipmentId)
                 ->update(['status' => 'Ditempah']);
             }
+
+            // Fetch full application data for email
+            $application = DB::table('application')->where('id', $applicationId)->first();
+
+            // Fetch borrowed equipment list
+            $equipmentList = DB::table('application_details')
+                ->join('equipment', 'application_details.equipment_id', '=', 'equipment.id')
+                ->where('application_details.application_id', $applicationId)
+                ->select('equipment.name')
+                ->get();
+
+            // Send email
+            Mail::send('emails.application-submitted', [
+                'application' => $application,
+                'equipmentList' => $equipmentList,
+            ], function ($message) use ($application) {
+                $message->to(auth()->user()->email)
+                    ->subject('Permohonan Pinjaman Peralatan Dihantar');
+            });
+
+            $adminEmails = DB::table('users')
+                ->where('roles', 'admin')
+                ->pluck('email');
+
+            foreach ($adminEmails as $adminEmail) {
+                Mail::raw(
+                    "Satu permohonan baru telah dihantar oleh: " . $request->applicant_name,
+                    function ($message) use ($adminEmail) {
+                        $message->to($adminEmail)
+                            ->subject('Notifikasi Permohonan Baru');
+                    }
+                );
+            }
+
+            
         });
 
         return redirect()->route('application.index')->with('success', 'Permohonan berjaya dihantar.');

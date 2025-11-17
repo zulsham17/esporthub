@@ -54,7 +54,7 @@
                 </div>
                 <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Hantar</button>
                 @if(session('success'))
-                <div>{{ session('success') }}</div>
+                <div class="alert alert-success">{{ session('success') }}<i class="fa fa-check-circle ml-1"></i></div>
                 @endif
 
                 @error('email')
